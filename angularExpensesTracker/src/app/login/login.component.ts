@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { LoginService } from './login.service';
+import { take } from 'rxjs/operators';
 
 interface Login {
   name: string;
@@ -8,13 +12,17 @@ interface Login {
 @Component({
   selector: 'exp-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [ LoginService ]
 })
 export class LoginComponent implements OnInit {
 
   public login: Login;
 
-  constructor() {
+  constructor(
+    private _loginService: LoginService,
+    private _router: Router
+  ) {
     this.login = {
       name: '',
       password: ''
@@ -25,6 +33,11 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit() {
+    this._loginService.login(this.login)
+      .pipe(take(1))
+      .subscribe(() => {
+        this._router.navigate(['/']);
+      });
   }
 
 }

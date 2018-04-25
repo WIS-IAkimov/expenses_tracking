@@ -22,3 +22,28 @@ This projects provides a Django application to track user expenses.
 ## Details
 For now, project uses `runserver` command and internal Django means to serve static files.
 It is possible to connect any other server like Nginx and serve these separately.
+
+# Project initialization
+
+There are the steps required to initialize our project.
+
+    # Create VirtualEnv
+    python3 -m venv env
+    # Log onto the environment
+    source ./env/bin/activate
+    # Install requirements
+    pip install -r requirements.txt
+    # Change the dir to the backend
+    cd expense_tracker
+    # Initialize the db
+    python manage.py makemigrations
+    python manage.py migrate
+    # Create admin user
+    # Login: admin
+    # Email: admin@example.com
+    # Password: testpw123
+    python manage.py createsuperuser
+    # Collect static files
+    python manage.py collectstatic
+    # Run the server
+    python manage.py runserver

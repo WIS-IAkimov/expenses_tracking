@@ -17,3 +17,6 @@ yarn-error.*
 
 # System Files
 .DS_Store
+
+# Django ignores
+expense_tracker/db.sqlite3

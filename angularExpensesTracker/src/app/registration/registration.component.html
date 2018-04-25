@@ -1,3 +1,38 @@
-<p>
-  registration works!
-</p>
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center flex-column">
+    <form (submit)="signUp()" [formGroup]="signUpForm">
+      <h1>Sign up</h1>
+        <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" class="form-control" formControlName="username" placeholder="Username" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="form-control" formControlName="email" placeholder="Email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Password"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="confirmPswd">Confirm password</label>
+        <input
+          type="password"
+          id="confirmPswd"
+          class="form-control"
+          formControlName="confirmPassword"
+          placeholder="Confirm Password"
+          required
+        >
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Sign up</button>
+    </form>
+  </div>
+</div>

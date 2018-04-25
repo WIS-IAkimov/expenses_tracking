@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+interface Login {
+  name: string;
+  password: string;
+}
+
 @Component({
   selector: 'exp-login',
   templateUrl: './login.component.html',
@@ -7,9 +12,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  public login: Login;
+
+  constructor() {
+    this.login = {
+      name: '',
+      password: ''
+    }
+  }
 
   ngOnInit() {
+  }
+
+  public onSubmit() {
   }
 
 }

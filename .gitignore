@@ -1,0 +1,19 @@
+# IDEs and editors
+/.idea
+/*.iml
+/.vscode
+/.awcache
+
+# dependencies
+node_modules
+
+# misc
+/.sass-cache
+/connect.lock
+/dll
+/dist
+npm-debug.*
+yarn-error.*
+
+# System Files
+.DS_Store

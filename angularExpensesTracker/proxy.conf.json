@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "http://jenkins.devpython.ru:81/",
+    "secure": false
+  }
+}

@@ -1,10 +1,23 @@
 <div class="container-fluid">
   <div class="row justify-content-center align-items-center flex-column">
     <form (submit)="signUp()" [formGroup]="signUpForm">
-      <h1>Sign up</h1>
-        <div class="form-group">
+      <h1 class="text-center">Sign up</h1>
+      <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" id="username" class="form-control" formControlName="username" placeholder="Username" required>
+        <input
+          type="text"
+          id="username"
+          class="form-control"
+          formControlName="username"
+          aria-describedby="validationTooltipUsernamePrepend"
+          placeholder="Username"
+          required>
+        <div class="invalid-tooltip">
+          <div *ngFor="let error of generateErrors('username')">
+            <span>{{error}}</span>
+            <br>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label for="email">Email</label>

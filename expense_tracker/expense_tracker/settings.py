@@ -139,9 +139,11 @@ JWT_AUTH = {
 
 # Make JWT Auth the default authentication mechanism for Django
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    # ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
 }
 
 # Enables django-rest-auth to use JWT tokens instead of regular tokens.
@@ -155,3 +157,7 @@ if DEBUG is True:
         '127.0.0.1',
         'localhost'
     )
+
+ACCESS_GROUPS_USER = 'user'
+ACCESS_GROUPS_MANAGER = 'manager'
+ACCESS_GROUPS_ADMIN = 'admin'

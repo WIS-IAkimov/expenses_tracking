@@ -148,3 +148,9 @@ REST_FRAMEWORK = {
 REST_USE_JWT = True
 
 SITE_ID = 1
+
+CORS_ORIGIN_WHITELIST = (
+    '0.0.0.0',
+    '127.0.0.1',
+    'localhost'
+)

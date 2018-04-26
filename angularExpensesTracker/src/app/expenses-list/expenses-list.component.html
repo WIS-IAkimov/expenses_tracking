@@ -1,3 +1,24 @@
-<p>
-  expenses-list works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Description</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Comment</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of expensesList">
+          <td>{{expense.date | date: 'longDate'}}</td>
+          <td>{{expense.time | date: 'mediumTime'}}</td>
+          <td>{{expense.description}}</td>
+          <td>{{expense.amount | currency}}</td>
+          <td>{{expense.comment}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

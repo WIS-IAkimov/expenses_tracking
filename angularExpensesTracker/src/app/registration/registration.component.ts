@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 
 import { take } from 'rxjs/operators';
 
-import { RegistrationService } from './registration.service';
+import { AuthService } from '../shared/auth.service';
+
 
 @Component({
   selector: 'exp-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
-  providers: [ RegistrationService ]
 })
 export class RegistrationComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _registrationService: RegistrationService,
+    private _authService: AuthService,
     private _router: Router
   ) { }
 
@@ -26,18 +26,21 @@ export class RegistrationComponent implements OnInit {
     this.signUpForm = this._formBuilder.group({
       username: ['', Validators.required],
       email: ['', Validators.email],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
+      password1: ['', Validators.required],
+      password2: ['', Validators.required]
     });
   }
 
   public signUp() {
-    if (this.signUpForm.get('password').value !== this.signUpForm.get('confirmPassword').value) {
-      this.signUpForm.get('confirmPassword').setErrors([{equals: false}]);
+    if (this.signUpForm.get('password1').value !== this.signUpForm.get('password2').value) {
+      this.signUpForm.get('password2').setErrors([{equals: false}]);
     } else {
-      this.signUpForm.valid && this._registrationService.signUp(this.signUpForm.getRawValue())
+      this.signUpForm.valid && this._authService.signUp(this.signUpForm.getRawValue())
         .pipe(take(1))
-        .subscribe(() => this._router.navigate(['/']));
+        .subscribe(() => {
+          debugger;
+          this._router.navigate(['/']);
+        });
     }
   }
 

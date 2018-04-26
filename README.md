@@ -63,7 +63,7 @@ Use this code to add jQuery on the page:
 Use this query to test login feature and get `JWT` token.
 
     $.post(
-       'api/login/',
+       '/api/login/',
         {
             "username": "admin",
             "password": "testpw123"
@@ -73,7 +73,7 @@ Use this query to test login feature and get `JWT` token.
 Use this query to test registration feature:
 
     $.post(
-       'api/registration/',
+       '/api/registration/',
         {
             "username": "USERNAME",
             "password1": "my_p2_4302",
@@ -81,3 +81,23 @@ Use this query to test registration feature:
             "email": "user@lastmail.com"
         }
     )
+
+**ATTENTION**: you need your admin user to perform this request.
+To post an expense, write a request like this:
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/expenses/',
+        headers: {
+            "Authorization":"JWT "+token,
+            "Content-Type": 'application/json'
+        },
+        'data': JSON.stringify({
+            'date': '2018-10-26',
+            'time': '00:00',
+            'amount': 50,
+            'comment': "?",
+            'description': '!',
+            'user': 1
+        })
+    })

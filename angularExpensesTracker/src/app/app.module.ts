@@ -6,6 +6,9 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule, appComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ApiUrlService } from './shared/api-url.service';
+import { AuthService } from './shared/auth.service';
+import { AuthGuardService } from './shared/auth-guard.service';
 
 
 @NgModule({
@@ -20,7 +23,11 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    ApiUrlService,
+    AuthService,
+    AuthGuardService
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

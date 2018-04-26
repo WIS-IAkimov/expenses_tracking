@@ -4,18 +4,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { AuthGuardService } from './shared/auth-guard.service';
 
 const routes: Routes = [
   {
     path: 'login',
+    canActivate: [AuthGuardService],
     component: LoginComponent
   },
   {
     path: 'registration',
+    canActivate: [AuthGuardService],
     component: RegistrationComponent
   },
   {
     path: '',
+    canActivate: [AuthGuardService],
     component: ExpensesListComponent
   }
 ];

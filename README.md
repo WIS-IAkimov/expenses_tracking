@@ -63,7 +63,7 @@ Use this code to add jQuery on the page:
 Use this query to test login feature and get `JWT` token.
 
     $.post(
-       '/login/',
+       'api/login/',
         {
             "username": "admin",
             "password": "testpw123"
@@ -73,7 +73,7 @@ Use this query to test login feature and get `JWT` token.
 Use this query to test registration feature:
 
     $.post(
-       '/registration/',
+       'api/registration/',
         {
             "username": "USERNAME",
             "password1": "my_p2_4302",

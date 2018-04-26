@@ -19,6 +19,6 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^', include('rest_auth.urls')),
-    url(r'^registration/', include('rest_auth.registration.urls'))
+    url(r'^api/', include('rest_auth.urls')),
+    url(r'^api/registration/', include('rest_auth.registration.urls'))
 ]

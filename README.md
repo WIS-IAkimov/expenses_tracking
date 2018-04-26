@@ -47,3 +47,37 @@ There are the steps required to initialize our project.
     python manage.py collectstatic
     # Run the server
     python manage.py runserver
+
+# Using auth
+**For frontend developers only.**
+
+To test authentication on this project, you can add jQuery and
+make several requests.
+
+Use this code to add jQuery on the page:
+
+    var jq = document.createElement('script');
+    jq.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js";
+    document.getElementsByTagName('head')[0].appendChild(jq);
+
+Use this query to test login feature and get `JWT` token.
+
+    $.post(
+       '/login/',
+        {
+            "username": "admin",
+            "password": "testpw123"
+        }
+    )
+
+Use this query to test registration feature:
+
+    $.post(
+       '/registration/',
+        {
+            "username": "USERNAME",
+            "password1": "my_p2_4302",
+            "password2": "my_p2_4302",
+            "email": "user@lastmail.com"
+        }
+    )

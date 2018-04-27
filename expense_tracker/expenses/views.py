@@ -73,9 +73,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(serializer_class=app_serializers.UserSerializer,
             permission_classes=(IsAuthenticated,),
-            methods=['post'], detail=False, url_path='current',
+            methods=['get'], detail=False, url_path='current',
             url_name='current')
-    def current_user_detail(self, request, pk, *args, **kwargs):
+    def current_user_detail(self, request, *args, **kwargs):
         serializer = self.get_serializer(instance=request.user)
         return Response(serializer.data)
 

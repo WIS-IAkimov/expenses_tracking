@@ -1,4 +1,5 @@
-from django.contrib.auth import get_user_model
+from django.conf import settings
+from django.contrib.auth import get_user_model, authenticate
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
@@ -6,6 +7,23 @@ from rest_framework import serializers
 from expenses.models import Expense
 
 UserModel = get_user_model()
+
+
+class UserLoginSerializer(serializers.Serializer):
+
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, attrs):
+        user = authenticate(request=self.context['request'],
+                            username=attrs['username'],
+                            password=attrs['password'])
+        if user is None:
+            raise serializers.ValidationError({
+                'username': _('Incorrect username/password'),
+                'password': _('Incorrect username/password'),
+            })
+        return user
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -53,6 +71,14 @@ class UserPasswordSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
+    role = serializers.SerializerMethodField(read_only=True)
+
+    def get_role(self, obj):
+        role = obj.groups.last()
+        role_name = settings.ACCESS_GROUPS_USER
+        if role:
+            role_name = role.name
+        return role_name.lower()
 
     @transaction.atomic
     def validate(self, attrs):
@@ -73,7 +99,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = (
-            'id', 'username', 'first_name', 'last_name', 'password'
+            'id', 'username', 'first_name', 'last_name', 'password', 'role'
         )
 
 

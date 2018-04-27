@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import viewsets
@@ -11,7 +11,7 @@ from rest_framework_jwt.settings import api_settings
 from expenses import serializers as app_serializers, utils
 from expenses.filters import ExpensesFilter
 from expenses.models import Expense
-from expenses.permissions import RolePermission
+from expenses.permissions import RolePermission, UnAuthenticated
 
 UserModel = get_user_model()
 
@@ -61,13 +61,10 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(serializer_class=app_serializers.UserRegistrationSerializer,
+            permission_classes=(UnAuthenticated,),
             methods=['post'], detail=False, url_path='registration',
             url_name='registration')
     def registration(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
-            return Response({
-                'error': _('Already signed')
-            })
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
@@ -77,3 +74,21 @@ class UserViewSet(viewsets.ModelViewSet):
         payload = jwt_payload_handler(instance)
         token = jwt_encode_handler(payload)
         return Response({'token': token})
+
+    @action(serializer_class=app_serializers.UserLoginSerializer,
+            permission_classes=(UnAuthenticated,),
+            methods=['post'], detail=False)
+    def login(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        login(request, user)
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+        payload = jwt_payload_handler(user)
+        token = jwt_encode_handler(payload)
+        user_serializer = app_serializers.UserSerializer(instance=user)
+        return Response({
+            'token': token,
+            'user': user_serializer.data
+        })

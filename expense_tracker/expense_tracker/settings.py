@@ -161,6 +161,6 @@ ACCESS_GROUPS_MANAGER = 'manager'
 ACCESS_GROUPS_ADMIN = 'admin'
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass

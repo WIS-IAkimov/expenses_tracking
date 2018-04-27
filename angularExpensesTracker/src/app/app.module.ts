@@ -9,9 +9,9 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 import { AppRoutingModule, appComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ApiUrlService } from './shared/api-url.service';
-import { AuthService } from './shared/auth.service';
-import { AuthGuardService } from './shared/auth-guard.service';
+import { ApiUrlService } from './core/api-url.service';
+import { AuthService } from './core/auth.service';
+import { AuthGuardService } from './core/auth-guard.service';
 
 
 @NgModule({

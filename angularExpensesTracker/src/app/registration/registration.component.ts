@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { take } from 'rxjs/operators';
 
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from '../core/auth.service';
 
 
 @Component({

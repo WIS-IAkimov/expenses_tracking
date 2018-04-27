@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuardService } from './shared/auth-guard.service';
+import { AuthGuardService } from './core/auth-guard.service';
 import { ExpenseDetailsComponent } from './expense-details/expense-details.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { LoginComponent } from './login/login.component';

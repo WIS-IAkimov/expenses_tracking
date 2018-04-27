@@ -23,3 +23,5 @@ yarn-error.*
 expense_tracker/db.sqlite3
 static/admin/*
 local_settings.py
+
+venv

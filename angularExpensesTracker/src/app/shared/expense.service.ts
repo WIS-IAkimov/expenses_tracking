@@ -22,9 +22,13 @@ export class ExpenseService {
     return this._selectedExpense$;
   }
 
-  public getExpenseList(filter?) {
-    return this._expenseList$ = this._http.get(this._apiUrlService.expenses, filter)
-      .pipe(map((data: any) => data.results.map(item => new ExpenseModel(item))));
+  public getExpenseList(filter?: any) {
+    return this._expenseList$ = this._http.get(this._apiUrlService.expenses, {params: filter})
+      .pipe(map((data: any) => {
+        data.results.map(item => new ExpenseModel(item));
+
+        return data;
+      }));
   }
 
   public getExpense(id: number) {

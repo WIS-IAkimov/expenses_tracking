@@ -11,7 +11,7 @@ export class ApiUrlService {
   constructor() { }
 
   get login() {
-    return `${this._base}login/`;
+    return `${this._base}/users/login/`;
   }
 
   get logout() {
@@ -26,8 +26,12 @@ export class ApiUrlService {
     return `${this._base}/expenses/`;
   }
 
-  public getExpense(id: number) {
-    return `${this._base}/expenses/${id}/`
+  get tokenVerify() {
+    return `${this._base}/token-verify/`;
+  }
+
+  get tokenRefresh() {
+    return `${this._base}/token-refresh/`;
   }
 
   get options() {
@@ -37,11 +41,11 @@ export class ApiUrlService {
       'Access-Control-Allow-Headers': 'Content-Type'
     });
 
-    // headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    // headers.append('Access-Control-Allow-Credentials', 'true');
-    // headers.append('Access-Control-Allow-Headers', 'Content-Type');
-
     return { headers: headers, withCredentials: true };
+  }
+
+  public getExpense(id: number) {
+    return `${this._base}/expenses/${id}/`
   }
 
 }

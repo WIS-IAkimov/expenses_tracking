@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { ApiUrlService } from './core/api-url.service';
 import { AuthService } from './core/auth.service';
 import { AuthGuardService } from './core/auth-guard.service';
+import { ExpenseService } from './shared/expense.service';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { AuthGuardService } from './core/auth-guard.service';
   providers: [
     ApiUrlService,
     AuthService,
-    AuthGuardService
+    AuthGuardService,
+    ExpenseService
   ],
   bootstrap: [ AppComponent ]
 })

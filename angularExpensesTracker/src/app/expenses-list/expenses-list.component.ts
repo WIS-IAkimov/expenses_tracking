@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ExpenseModel} from './expense.model';
+
+import { Observable } from 'rxjs/Observable';
+
+import { ExpenseModel } from './expense.model';
+import { ExpenseService } from '../shared/expense.service';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'exp-expenses-list',
@@ -8,19 +13,22 @@ import {ExpenseModel} from './expense.model';
 })
 export class ExpensesListComponent implements OnInit {
 
-  public expensesList: ExpenseModel[];
+  public expensesList$: Observable<ExpenseModel[]>;
 
-  constructor() {
-    this.expensesList = [ new ExpenseModel({
-      id: 1,
-      description: 'some',
-      date: new Date(),
-      time: new Date(),
-      amount: 35.25
-    })]
-  }
+  constructor(
+    private _expenseService: ExpenseService
+  ) {}
 
   ngOnInit() {
+    this.getExpenseList();
+  }
+
+  public removeExpense(id: number) {
+    this._expenseService.deleteExpense(id).pipe(take(1)).subscribe();
+  }
+
+  private getExpenseList() {
+    this.expensesList$ = this._expenseService.getExpenseList();
   }
 
 }

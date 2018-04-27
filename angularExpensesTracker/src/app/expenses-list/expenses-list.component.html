@@ -13,15 +13,21 @@
         <th scope="col">Description</th>
         <th scope="col">Amount</th>
         <th scope="col">Comment</th>
+        <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let expense of expensesList">
-          <td>{{expense.date | date: 'longDate'}}</td>
-          <td>{{expense.time | date: 'mediumTime'}}</td>
+      <!--<pre>{{expensesList$ | async | json}}</pre>-->
+        <tr *ngFor="let expense of expensesList$ | async">
+          <td>{{expense.created_at | date: 'longDate'}}</td>
+          <td>{{expense.created_at | date: 'mediumTime'}}</td>
           <td>{{expense.description}}</td>
           <td>{{expense.amount | currency}}</td>
           <td>{{expense.comment}}</td>
+          <td>
+            <button class="btn btn-info" [routerLink]="[expense.id]">Edit</button>
+            <button class="btn btn-danger" (click)="removeExpense(expense.id)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>

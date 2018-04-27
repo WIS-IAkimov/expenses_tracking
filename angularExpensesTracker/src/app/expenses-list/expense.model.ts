@@ -1,7 +1,7 @@
 export class ExpenseModel {
   public id: number;
   public description: string;
-  public date: Date;
+  public created_at: Date;
   public time: Date;
   public amount: number;
   public comment: string;
@@ -9,7 +9,7 @@ export class ExpenseModel {
   constructor(data: any = {}) {
     this.id = data.id || void 0;
     this.description = data.description || void 0;
-    this.date = data.date || void 0;
+    this.created_at = new Date(data.created_at) || null;
     this.time = data.time || void 0;
     this.amount = data.amount || void 0;
     this.comment = data.comment || void 0;

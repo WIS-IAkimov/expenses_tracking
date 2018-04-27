@@ -16,17 +16,18 @@ export class AuthService {
     this.isLoggedIn = !!localStorage.getItem('auth');
   }
 
-  get headers() {
+  get options() {
     const headers = new HttpHeaders();
 
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    headers.append('Access-Control-Allow-Credentials', 'true');
     headers.append('Access-Control-Allow-Headers', 'Content-Type');
 
-    return {headers: headers};
+    return { headers: headers, withCredentials: true };
   }
 
   public signIn(query) {
-    return this._http.post(this._apiUrlService.login, query, this.headers)
+    return this._http.post(this._apiUrlService.login, query, this.options)
       .pipe(map(data => {
         localStorage.setItem('auth', JSON.stringify(data));
         this.isLoggedIn = true;
@@ -45,9 +46,8 @@ export class AuthService {
   }
 
   public signUp(query) {
-    return this._http.post(this._apiUrlService.registration, query, this.headers).
+    return this._http.post(this._apiUrlService.registration, query, this.options).
       pipe(map((data) => {
-        debugger;
         localStorage.setItem('auth', JSON.stringify(data));
         this.isLoggedIn = true;
 

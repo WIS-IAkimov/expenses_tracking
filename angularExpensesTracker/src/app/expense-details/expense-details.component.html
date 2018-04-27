@@ -15,13 +15,13 @@
       <div class="form-group row">
         <label for="date" class="col-sm-2">Date</label>
         <div class="col-sm-5">
-          <input type="text" id="date" class="form-control" formControlName="date" bsDatepicker>
+          <input type="text" id="date" class="form-control" formControlName="created_at" bsDatepicker>
         </div>
       </div>
       <div class="form-group row align-items-center">
         <label for="time" class="col-sm-2">Time</label>
         <div class="col-sm-5">
-          <timepicker id="time" formControlName="date"></timepicker>
+          <timepicker id="time" [showSeconds]="true" formControlName="created_at"></timepicker>
         </div>
       </div>
       <div class="form-group row">
@@ -37,7 +37,8 @@
         </div>
       </div>
       <div class="col">
-        <button class="btn btn-default" type="reset">Cancel</button>
+        <button class="btn btn-default" [routerLink]="['../']">Cancel</button>
+        <button class="btn btn-warning" type="reset">Reset</button>
         <button class="btn btn-success" type="submit">Save</button>
       </div>
     </form>

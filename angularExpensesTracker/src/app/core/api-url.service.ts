@@ -22,7 +22,11 @@ export class ApiUrlService {
   }
 
   get expenses() {
-    return `${this._base}/expenses_list/`;
+    return `${this._base}/expenses/`;
+  }
+
+  public getExpense(id: number) {
+    return `${this._base}/expenses/${id}/`
   }
 
 }

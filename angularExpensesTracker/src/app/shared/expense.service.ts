@@ -37,8 +37,8 @@ export class ExpenseService {
         this._expenseList$
           .pipe(take(1))
           .subscribe({
-            next: (expenses: ExpenseModel[]) => {
-              expenses.some((expense: ExpenseModel) => {
+            next: (response) => {
+              response.results.some((expense: ExpenseModel) => {
                 if (expense.id === id) {
                   observer.next(expense);
                   return true;
@@ -78,7 +78,9 @@ export class ExpenseService {
   }
 
   public deleteExpense(id: number) {
-    return this._http.delete(this._apiUrlService.getExpense(id))
+    console.log(this._apiUrlService.options);
+    debugger;
+    return this._http.delete(this._apiUrlService.getExpense(id), this._apiUrlService.options)
       .pipe(tap(() => {
         this.getExpenseList();
       }));

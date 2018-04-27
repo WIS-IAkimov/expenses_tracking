@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { ApiUrlService } from './core/api-url.service';
 import { AuthService } from './core/auth.service';
 import { AuthGuardService } from './core/auth-guard.service';
+import { AuthInterceptor } from './core/auth.interceptor';
 import { ExpenseService } from './shared/expense.service';
 
 
@@ -33,7 +34,8 @@ import { ExpenseService } from './shared/expense.service';
     ApiUrlService,
     AuthService,
     AuthGuardService,
-    ExpenseService
+    ExpenseService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [ AppComponent ]
 })

@@ -2,6 +2,8 @@ import random
 import datetime
 import urllib.request
 from django.core.management.base import BaseCommand, CommandError
+from django.utils import timezone
+
 from expenses.models import Expense
 
 DICT_URL = ("http://svnweb.freebsd.org/csrg/share/dict/words?"
@@ -21,12 +23,10 @@ class Command(BaseCommand):
                 random.sample(words, random.randint(5, 17))
             ).capitalize() + '.'
             amount = random.randint(3, 1450)
-            date = datetime.date.today()
-            time = datetime.time()
             expense_instance = Expense(
                 description=description, amount=amount,
-                date=date, time=time, comment='',
-                user=1
+                created_at=timezone.now(),
+                comment='', user=1
             )
             expense_instance.save()
 

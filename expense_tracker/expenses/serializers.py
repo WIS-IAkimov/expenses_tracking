@@ -8,6 +8,25 @@ from expenses.models import Expense
 UserModel = get_user_model()
 
 
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True,
+                                     validators=[validate_password])
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        validated_data['password'] = ''
+        obj = super(UserRegistrationSerializer, self).create(validated_data)
+        obj.set_password(password)
+        obj.save(update_fields=['password'])
+        return obj
+
+    class Meta:
+        model = UserModel
+        fields = (
+            'id', 'username', 'first_name', 'last_name', 'password'
+        )
+
+
 class UserPasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField()
     password1 = serializers.CharField()
@@ -38,19 +57,9 @@ class UserSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def validate(self, attrs):
         if not self.instance:
-            if UserModel.objects.select_for_update().filter(
-                    email=attrs['email']).exists():
-                raise serializers.ValidationError({
-                    'email': _('Email already exists in database')
-                })
             password = attrs.get('password', '')
             validate_password(password)
             return attrs
-        if UserModel.objects.select_for_update().filter(email=attrs['email'])\
-                .exclude(id=self.instance.id).exists():
-            raise serializers.ValidationError({
-                'email': _('Email already exists in database')
-            })
         attrs.pop('password', None)
         return attrs
 
@@ -64,7 +73,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = (
-            'id', 'email', 'username', 'first_name', 'last_name', 'password'
+            'id', 'username', 'first_name', 'last_name', 'password'
         )
 
 

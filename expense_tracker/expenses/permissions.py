@@ -1,5 +1,7 @@
 from rest_framework import permissions
 
+from expenses import utils
+
 
 class RolePermission(permissions.BasePermission):
     """
@@ -7,5 +9,4 @@ class RolePermission(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        user_groups = set(request.user.groups.values_list('name', flat=True))
-        return len(user_groups.intersection(view.allowed_groups)) > 0
+        return utils.has_permission(request.user, view.allowed_groups)

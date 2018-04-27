@@ -1,13 +1,16 @@
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
+from rest_framework_jwt.settings import api_settings
 
-from expenses import serializers as app_serializers
+from expenses import serializers as app_serializers, utils
 from expenses.filters import ExpensesFilter
+from expenses.models import Expense
 from expenses.permissions import RolePermission
 
 UserModel = get_user_model()
@@ -17,12 +20,17 @@ class ExpenseViewSet(viewsets.ModelViewSet):
     """
     DRF ViewSet for listing and CRUD operations on expenses.
     """
+    USER_FILTER_KEY = 'user'
     permission_classes = (IsAuthenticated,)
     serializer_class = app_serializers.ExpenseSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = ExpensesFilter
 
     def get_queryset(self):
+        if utils.has_permission(self.request.user, (
+                settings.ACCESS_GROUPS_ADMIN,)):
+            if self.USER_FILTER_KEY in self.request.query_params:
+                return Expense.objects.all()
         return self.request.user.expenses.all().order_by('created_at')
 
     def perform_create(self, serializer):
@@ -51,3 +59,21 @@ class UserViewSet(viewsets.ModelViewSet):
         user.set_password(serializer.validated_data['password1'])
         user.save(update_fields=['password'])
         return Response(serializer.data)
+
+    @action(serializer_class=app_serializers.UserRegistrationSerializer,
+            methods=['post'], detail=False, url_path='registration',
+            url_name='registration')
+    def registration(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return Response({
+                'error': _('Already signed')
+            })
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = serializer.save()
+
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+        payload = jwt_payload_handler(instance)
+        token = jwt_encode_handler(payload)
+        return Response({'token': token})

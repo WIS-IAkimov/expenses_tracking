@@ -13,8 +13,9 @@ class ExpensesFilter(django_filters.FilterSet):
                                                  lookup_expr='gte')
     created_to = django_filters.DateTimeFilter(name='created_at',
                                                lookup_expr='lte')
+    user = django_filters.NumberFilter(name='user', lookup_expr='exact')
 
-    def filter_by_text(self, queryset, value, name):
+    def filter_by_text(self, queryset, name, value):
         return queryset.filter(
             Q(comment__icontains=value) | Q(description__icontains=value)
         ).distinct()
@@ -22,5 +23,6 @@ class ExpensesFilter(django_filters.FilterSet):
     class Meta:
         model = Expense
         fields = (
-            'amount_from', 'amount_to', 'search', 'created_from', 'created_to'
+            'amount_from', 'amount_to', 'search', 'created_from', 'created_to',
+            'user'
         )

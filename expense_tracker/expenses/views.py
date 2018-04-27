@@ -1,8 +1,7 @@
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from rest_framework import viewsets
-from rest_framework.decorators import list_route, action
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
@@ -60,6 +59,14 @@ class UserViewSet(viewsets.ModelViewSet):
         user.save(update_fields=['password'])
         return Response(serializer.data)
 
+    @action(serializer_class=app_serializers.UserSerializer,
+            permission_classes=(IsAuthenticated,),
+            methods=['post'], detail=False, url_path='current',
+            url_name='current')
+    def current_user_detail(self, request, pk, *args, **kwargs):
+        serializer = self.get_serializer(instance=request.user)
+        return Response(serializer.data)
+
     @action(serializer_class=app_serializers.UserRegistrationSerializer,
             permission_classes=(UnAuthenticated,),
             methods=['post'], detail=False, url_path='registration',
@@ -82,7 +89,6 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
-        login(request, user)
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
         payload = jwt_payload_handler(user)

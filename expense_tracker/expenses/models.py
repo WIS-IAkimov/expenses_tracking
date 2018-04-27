@@ -9,7 +9,7 @@ class Expense(models.Model):
     time = models.TimeField()
     description = models.TextField()
     amount = models.IntegerField()
-    comment = models.TextField()
+    comment = models.TextField(blank=True, default='')
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name='expenses',

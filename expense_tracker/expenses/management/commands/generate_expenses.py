@@ -26,7 +26,7 @@ class Command(BaseCommand):
             expense_instance = Expense(
                 description=description, amount=amount,
                 created_at=timezone.now(),
-                comment='', user=1
+                comment='', user_id=1
             )
             expense_instance.save()
 

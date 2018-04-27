@@ -5,7 +5,7 @@ from expenses.views import UserViewSet
 from rest_framework import routers
 from django.conf.urls import include
 
-router = routers.SimpleRouter()
+router = routers.DefaultRouter()
 router.register(r'expenses', ExpenseViewSet, 'expenses')
 router.register(r'users', UserViewSet)
 

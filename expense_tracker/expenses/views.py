@@ -4,8 +4,10 @@ from rest_framework import viewsets
 from rest_framework.decorators import list_route, action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django_filters import rest_framework as filters
 
 from expenses import serializers as app_serializers
+from expenses.filters import ExpensesFilter
 from expenses.permissions import RolePermission
 
 UserModel = get_user_model()
@@ -17,6 +19,8 @@ class ExpenseViewSet(viewsets.ModelViewSet):
     """
     permission_classes = (IsAuthenticated,)
     serializer_class = app_serializers.ExpenseSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = ExpensesFilter
 
     def get_queryset(self):
         return self.request.user.expenses.all().order_by('created_at')

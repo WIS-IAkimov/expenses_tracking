@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'rest_framework',
+    'django_filters',
     'rest_auth',
     'allauth',
     'allauth.account',

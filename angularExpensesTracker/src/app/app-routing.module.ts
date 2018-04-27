@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthGuardService } from './shared/auth-guard.service';
+import { ExpenseDetailsComponent } from './expense-details/expense-details.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { AuthGuardService } from './shared/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: 'expenses',
     canActivate: [AuthGuardService],
     component: ExpensesListComponent
+  },
+  {
+    path: 'expenses/:id',
+    canActivate: [AuthGuardService],
+    component: ExpenseDetailsComponent
   }
 ];
 
@@ -37,6 +43,7 @@ export class AppRoutingModule {
 }
 
 export const appComponents = [
+  ExpenseDetailsComponent,
   ExpensesListComponent,
   LoginComponent,
   RegistrationComponent

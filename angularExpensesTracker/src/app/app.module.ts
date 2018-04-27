@@ -3,6 +3,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+
 
 import { AppRoutingModule, appComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,10 +21,12 @@ import { AuthGuardService } from './shared/auth-guard.service';
   ],
   imports: [
     AppRoutingModule,
+    BsDatepickerModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TimepickerModule.forRoot(),
   ],
   providers: [
     ApiUrlService,

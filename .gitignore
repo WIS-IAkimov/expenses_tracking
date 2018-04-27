@@ -14,9 +14,11 @@ node_modules
 /dist
 npm-debug.*
 yarn-error.*
+*.pyc
 
 # System Files
 .DS_Store
 
 # Django ignores
 expense_tracker/db.sqlite3
+static/admin/*

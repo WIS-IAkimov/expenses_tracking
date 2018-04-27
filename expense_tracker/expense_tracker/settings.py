@@ -161,3 +161,8 @@ if DEBUG is True:
 ACCESS_GROUPS_USER = 'user'
 ACCESS_GROUPS_MANAGER = 'manager'
 ACCESS_GROUPS_ADMIN = 'admin'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

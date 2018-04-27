@@ -22,3 +22,4 @@ yarn-error.*
 # Django ignores
 expense_tracker/db.sqlite3
 static/admin/*
+local_settings.py

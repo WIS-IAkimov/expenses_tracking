@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth.models import Group
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
@@ -70,7 +71,6 @@ class UserPasswordSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=False)
     role = serializers.SerializerMethodField(read_only=True)
 
     def get_role(self, obj):
@@ -80,18 +80,30 @@ class UserSerializer(serializers.ModelSerializer):
             role_name = role.name
         return role_name.lower()
 
-    @transaction.atomic
-    def validate(self, attrs):
-        if not self.instance:
-            password = attrs.get('password', '')
-            validate_password(password)
-            return attrs
-        attrs.pop('password', None)
-        return attrs
+    class Meta:
+        model = UserModel
+        fields = (
+            'id', 'username', 'first_name', 'last_name', 'role'
+        )
+
+
+class UserCreateSerializer(UserSerializer):
+    ROLE_CHOICES = (
+        (settings.ACCESS_GROUPS_USER, settings.ACCESS_GROUPS_USER),
+        (settings.ACCESS_GROUPS_MANAGER, settings.ACCESS_GROUPS_MANAGER),
+        (settings.ACCESS_GROUPS_ADMIN, settings.ACCESS_GROUPS_ADMIN)
+    )
+
+    password = serializers.CharField(write_only=True,
+                                     validators=[validate_password])
+    role = serializers.ChoiceField(choices=ROLE_CHOICES, write_only=True)
 
     def create(self, validated_data):
         password = validated_data.pop('password')
-        user = super(UserSerializer, self).create(validated_data)
+        role = validated_data.pop('role')
+        user = super(UserCreateSerializer, self).create(validated_data)
+        group = Group.objects.get(name=role)
+        user.groups.add(group)
         user.set_password(password)
         user.save(update_fields=['password'])
         return user
@@ -99,7 +111,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = (
-            'id', 'username', 'first_name', 'last_name', 'password', 'role'
+            'id', 'username', 'first_name', 'last_name', 'role', 'password'
         )
 
 

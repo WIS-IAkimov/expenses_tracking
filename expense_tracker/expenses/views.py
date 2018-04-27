@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.settings import api_settings
 
 from expenses import serializers as app_serializers, utils
@@ -42,11 +43,22 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = UserModel.objects.all().order_by('id')
     permission_classes = (IsAuthenticated, RolePermission)
+    authentication_classes = (JSONWebTokenAuthentication,)
     serializer_class = app_serializers.UserSerializer
     allowed_groups = (
         settings.ACCESS_GROUPS_MANAGER,
         settings.ACCESS_GROUPS_ADMIN
     )
+    serializer_map = {
+        'create': app_serializers.UserCreateSerializer
+    }
+
+    def get_serializer_class(self):
+        default_serializer = self.serializer_class
+        serializer_class = self.serializer_map.get(self.action,
+                                                   default_serializer)
+        print(serializer_class)
+        return serializer_class
 
     @action(serializer_class=app_serializers.UserPasswordSerializer,
             methods=['post'], detail=True, url_path='change-password',

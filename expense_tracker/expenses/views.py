@@ -43,7 +43,6 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = UserModel.objects.all().order_by('id')
     permission_classes = (IsAuthenticated, RolePermission)
-    authentication_classes = (JSONWebTokenAuthentication,)
     serializer_class = app_serializers.UserSerializer
     allowed_groups = (
         settings.ACCESS_GROUPS_MANAGER,

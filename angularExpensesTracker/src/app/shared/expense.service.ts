@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { map, take } from 'rxjs/operators';
+
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiUrlService } from '../core/api-url.service';
-import { Observable } from 'rxjs/Observable';
 import { ExpenseModel } from '../expenses-list/expense.model';
-import {map, take, tap} from 'rxjs/operators';
-import {of} from 'rxjs/observable/of';
 
 @Injectable()
 export class ExpenseService {
@@ -15,7 +18,8 @@ export class ExpenseService {
 
   constructor(
     private _apiUrlService: ApiUrlService,
-    private _http: HttpClient
+    private _http: HttpClient,
+    private _toastr: ToastrService
   ) { }
 
   get selectedExpense$() {
@@ -63,6 +67,7 @@ export class ExpenseService {
     return this._http.post(this._apiUrlService.expenses, expense)
       .pipe(map(data => {
         this._selectedExpense$ = of(new ExpenseModel(data));
+        this._toastr.success('', 'Expense create successfully');
 
         return new ExpenseModel(data);
       }));
@@ -72,6 +77,7 @@ export class ExpenseService {
     return this._http.put(this._apiUrlService.getExpense(expense.id), expense)
       .pipe(map(data => {
         this._selectedExpense$ = of(new ExpenseModel(data));
+        this._toastr.success('', 'Expense update successfully');
 
         return new ExpenseModel(data);
       }));

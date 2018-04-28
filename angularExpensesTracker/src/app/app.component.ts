@@ -20,6 +20,7 @@ export class AppComponent {
     this._authService.isLoggedIn$
       .subscribe((isLoggedIn: boolean) => {
         this.isLoggedIn = isLoggedIn;
+        !this.isLoggedIn && this._router.navigate(['/login'], {replaceUrl: true});
       });
   }
 

@@ -30,8 +30,8 @@ class ExpenseViewSet(viewsets.ModelViewSet):
         if utils.has_permission(self.request.user, (
                 settings.ACCESS_GROUPS_ADMIN,)):
             if self.USER_FILTER_KEY in self.request.query_params:
-                return Expense.objects.all()
-        return self.request.user.expenses.all().order_by('created_at')
+                return Expense.objects.all().order_by('-created_at')
+        return self.request.user.expenses.all().order_by('-created_at')
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user.id)

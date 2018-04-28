@@ -1,8 +1,9 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { ApiUrlService } from './api-url.service';
 import { map, take, tap} from 'rxjs/operators';
+
+import { ApiUrlService } from './api-url.service';
 
 @Injectable()
 export class AuthService {

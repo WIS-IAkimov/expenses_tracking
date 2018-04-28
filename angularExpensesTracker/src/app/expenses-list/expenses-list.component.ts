@@ -58,7 +58,9 @@ export class ExpensesListComponent implements OnInit {
   }
 
   public removeExpense(id: number) {
-    this._expenseService.deleteExpense(id).pipe(take(1)).subscribe();
+    this._expenseService.deleteExpense(id)
+      .pipe(take(1))
+      .subscribe(() => this.getExpenseList());
   }
 
   public pageChange(index: number) {

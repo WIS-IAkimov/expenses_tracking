@@ -78,11 +78,6 @@ export class ExpenseService {
   }
 
   public deleteExpense(id: number) {
-    console.log(this._apiUrlService.options);
-    debugger;
-    return this._http.delete(this._apiUrlService.getExpense(id), this._apiUrlService.options)
-      .pipe(tap(() => {
-        this.getExpenseList();
-      }));
+    return this._http.delete(this._apiUrlService.getExpense(id), this._apiUrlService.options);
   }
 }

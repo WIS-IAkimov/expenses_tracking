@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ExpenseService } from '../shared/expense.service';
 import {take} from 'rxjs/operators';
 import {ExpenseModel} from '../expenses-list/expense.model';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'exp-expense-details',
@@ -32,7 +33,7 @@ export class ExpenseDetailsComponent implements OnInit {
     !this.isNew && this.getExpense();
   }
 
-  public submit() {
+  public save() {
     if (this.expenseForm.valid) {
       this.isNew ? this.createExpense() : this.updateExpense();
     }
@@ -60,17 +61,22 @@ export class ExpenseDetailsComponent implements OnInit {
   }
 
   private getExpense() {
-    this._expenseService.getExpense(+this._id).
-      pipe(take(1))
-      .subscribe((expense: ExpenseModel) => this.expenseForm.patchValue(expense));
+    this.updateForm(this._expenseService.getExpense(+this._id));
   }
 
   private createExpense() {
-    this._expenseService.createExpense(new ExpenseModel(this.expenseForm.getRawValue()));
+    debugger;
+    this.updateForm(this._expenseService.createExpense(new ExpenseModel(this.expenseForm.getRawValue())));
   }
 
   private updateExpense() {
-    this._expenseService.updateExpense(new ExpenseModel(this.expenseForm.getRawValue()));
+    this.updateForm(this._expenseService.updateExpense(new ExpenseModel(this.expenseForm.getRawValue())));
+  }
+
+  private updateForm(expense$: Observable<ExpenseModel>) {
+    expense$
+      .pipe(take(1))
+      .subscribe((expense: ExpenseModel) => this.expenseForm.patchValue(new ExpenseModel(expense)));
   }
 
 }

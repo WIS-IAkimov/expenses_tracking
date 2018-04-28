@@ -25,22 +25,20 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.signUpForm = this._formBuilder.group({
       username: ['', Validators.required],
-      email: ['', Validators.email],
-      password1: ['', Validators.required],
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      password: ['', Validators.required],
       password2: ['', Validators.required]
     });
   }
 
   public signUp() {
-    if (this.signUpForm.get('password1').value !== this.signUpForm.get('password2').value) {
+    if (this.signUpForm.get('password').value !== this.signUpForm.get('password2').value) {
       this.signUpForm.get('password2').setErrors([{equals: false}]);
     } else {
       this.signUpForm.valid && this._authService.signUp(this.signUpForm.getRawValue())
         .pipe(take(1))
-        .subscribe(() => {
-          debugger;
-          this._router.navigate(['/']);
-        });
+        .subscribe(() => this._router.navigate(['/']));
     }
   }
 

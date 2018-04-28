@@ -65,7 +65,6 @@ export class ExpenseDetailsComponent implements OnInit {
   }
 
   private createExpense() {
-    debugger;
     this.updateForm(this._expenseService.createExpense(new ExpenseModel(this.expenseForm.getRawValue())));
   }
 

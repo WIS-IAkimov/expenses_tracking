@@ -15,11 +15,11 @@ export class ApiUrlService {
   }
 
   get logout() {
-    return`${this._base}logout/`;
+    return`${this._base}/users/logout/`;
   }
 
   get registration() {
-    return `${this._base}registration/`;
+    return `${this._base}/users/registration/`;
   }
 
   get expenses() {

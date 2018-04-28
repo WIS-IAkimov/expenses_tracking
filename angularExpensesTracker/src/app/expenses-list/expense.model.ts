@@ -12,6 +12,6 @@ export class ExpenseModel {
     this.created_at = new Date(data.created_at) || null;
     this.time = data.time || void 0;
     this.amount = data.amount || void 0;
-    this.comment = data.comment || void 0;
+    this.comment = data.comment || '';
   }
 }

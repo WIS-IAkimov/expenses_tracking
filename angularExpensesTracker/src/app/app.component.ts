@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from './core/auth.service';
-import {take} from 'rxjs/operators';
-import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -26,10 +24,7 @@ export class AppComponent {
   }
 
   public signOut() {
-    this._authService.signOut()
-      .pipe(take(1))
-      .subscribe(() => {
-        this._router.navigate(['/login']);
-      });
+    this._authService.signOut();
+    this._router.navigate(['/login']);
   }
 }

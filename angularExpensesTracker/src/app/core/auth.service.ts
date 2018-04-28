@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { map, take, tap} from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { ApiUrlService } from './api-url.service';
 
@@ -51,12 +51,8 @@ export class AuthService {
   }
 
   public signOut() {
-     return this._http.post(this._apiUrlService.logout, {})
-      .pipe(
-        tap(() => {
-          localStorage.removeItem('auth');
-          this.isLoggedIn$.emit(false);
-        }));
+    localStorage.removeItem('auth');
+    this.isLoggedIn$.emit(false);
   }
 
   public signUp(query) {

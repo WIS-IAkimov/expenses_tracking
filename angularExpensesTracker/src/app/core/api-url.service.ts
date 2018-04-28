@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
-import {HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class ApiUrlService {
@@ -44,7 +44,7 @@ export class ApiUrlService {
   }
 
   public getExpense(id: number) {
-    return `${this._base}/expenses/${id}/`
+    return `${this._base}/expenses/${id}/`;
   }
 
 }

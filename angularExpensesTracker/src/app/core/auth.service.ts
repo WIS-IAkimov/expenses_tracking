@@ -13,6 +13,7 @@ export class AuthService {
     private _apiUrlService: ApiUrlService,
     private _http: HttpClient
   ) {
+    this.isLoggedIn = !!localStorage.getItem('auth');
     this.verifyToken();
   }
 

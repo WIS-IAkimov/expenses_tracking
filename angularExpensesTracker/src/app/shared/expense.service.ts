@@ -37,7 +37,7 @@ export class ExpenseService {
         this._expenseList$
           .pipe(take(1))
           .subscribe({
-            next: (response) => {
+            next: (response: any) => {
               response.results.some((expense: ExpenseModel) => {
                 if (expense.id === id) {
                   observer.next(expense);
@@ -62,7 +62,7 @@ export class ExpenseService {
   public createExpense(expense: ExpenseModel) {
     return this._http.post(this._apiUrlService.expenses, expense)
       .pipe(map(data => {
-        this._selectedExpense$ = of(data);
+        this._selectedExpense$ = of(new ExpenseModel(data));
 
         return new ExpenseModel(data);
       }));
@@ -71,7 +71,7 @@ export class ExpenseService {
   public updateExpense(expense: ExpenseModel) {
     return this._http.put(this._apiUrlService.getExpense(expense.id), expense)
       .pipe(map(data => {
-        this._selectedExpense$ = of(data);
+        this._selectedExpense$ = of(new ExpenseModel(data));
 
         return new ExpenseModel(data);
       }));

@@ -35,13 +35,12 @@ export class ApiUrlService {
   }
 
   get options() {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Headers': 'Content-Type'
-    });
+    const headers = new HttpHeaders();
 
-    return { headers: headers, withCredentials: true };
+    headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    headers.append('Access-Control-Allow-Headers', 'Content-Type');
+
+    return { headers: headers};
   }
 
   public getExpense(id: number) {

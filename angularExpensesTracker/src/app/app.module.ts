@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -6,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule, appComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,10 +27,12 @@ import { ExpenseService } from './shared/expense.service';
     AppRoutingModule,
     BsDatepickerModule.forRoot(),
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
     TimepickerModule.forRoot(),
+    ToastrModule.forRoot()
   ],
   providers: [
     ApiUrlService,

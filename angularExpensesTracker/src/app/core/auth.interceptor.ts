@@ -26,10 +26,12 @@ export class AuthInterceptor implements HttpInterceptor {
     return req.pipe(
       catchError(err => {
         let errors = '';
-        Object.keys(err.error).forEach((key: string) => {
-          errors += `<p>${key}: ${this.getErrorContent(err.error[key])}</p>`
-        });
-        this._toastr.error(errors, `${err.status}`, {enableHtml: true});
+        if (err.error) {
+          Object.keys(err.error).forEach((key: string) => {
+            errors += `<p>${key}: ${this.getErrorContent(err.error[key])}</p>`
+          });
+        }
+        this._toastr.error(errors || '', `${err.status}`, {enableHtml: true});
 
         return err;
       }));

@@ -18,14 +18,16 @@ export class AuthGuardService implements CanActivate {
 
 
   private checkLogin(url: string) {
+    const isLoggedIn = !!localStorage.getItem('auth');
+
     if (url.indexOf('login') !== -1 || url.indexOf('registration') !== -1) {
-      this._authService.isLoggedIn && this._router.navigate(['/']);
+      isLoggedIn && this._router.navigate(['/']);
 
-      return !this._authService.isLoggedIn;
+      return !isLoggedIn;
     } else {
-      !this._authService.isLoggedIn && this._router.navigate(['/login']);
+      !isLoggedIn && this._router.navigate(['/login']);
 
-      return this._authService.isLoggedIn;
+      return isLoggedIn;
     }
   }
 }

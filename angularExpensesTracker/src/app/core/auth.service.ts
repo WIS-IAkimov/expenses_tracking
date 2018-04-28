@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { ApiUrlService } from './api-url.service';
-import {catchError, map, take, tap} from 'rxjs/operators';
+import { map, take, tap} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
 
-  public isLoggedIn: boolean;
+  public isLoggedIn$: EventEmitter<boolean>;
 
   constructor(
     private _apiUrlService: ApiUrlService,
     private _http: HttpClient
   ) {
-    this.isLoggedIn = !!localStorage.getItem('auth');
+    this.isLoggedIn$ = new EventEmitter<boolean>(true);
+    this.isLoggedIn$.emit(!!localStorage.getItem('auth'));
     this.verifyToken();
   }
 
@@ -25,7 +26,7 @@ export class AuthService {
         .pipe(take(1))
         .subscribe({
           next: () => {
-            this.isLoggedIn = true;
+            this.isLoggedIn$.emit(true);
           },
           error: err => {
             if (err.status === 400) {
@@ -42,7 +43,7 @@ export class AuthService {
     return this._http.post(this._apiUrlService.login, query, this._apiUrlService.options)
       .pipe(map(data => {
         localStorage.setItem('auth', JSON.stringify(data));
-        this.isLoggedIn = true;
+        this.isLoggedIn$.emit(true);
 
         return data;
       }));
@@ -53,7 +54,7 @@ export class AuthService {
       .pipe(
         tap(() => {
           localStorage.removeItem('auth');
-          this.isLoggedIn = false;
+          this.isLoggedIn$.emit(false);
         }));
   }
 
@@ -61,7 +62,7 @@ export class AuthService {
     return this._http.post(this._apiUrlService.registration, query, this._apiUrlService.options).
       pipe(map((data) => {
         localStorage.setItem('auth', JSON.stringify(data));
-        this.isLoggedIn = true;
+        this.isLoggedIn$.emit(true);
 
         return data;
     }));
@@ -78,7 +79,7 @@ export class AuthService {
         },
         error: () => {
           localStorage.removeItem('auth');
-          this.isLoggedIn = false;
+          this.isLoggedIn$.emit(false);
         }
       })
   }

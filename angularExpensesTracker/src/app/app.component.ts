@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from './core/auth.service';
 import {take} from 'rxjs/operators';
+import {Observable} from 'rxjs/Observable';
 
 
 @Component({
@@ -18,7 +19,10 @@ export class AppComponent {
     private _authService: AuthService,
     private _router: Router
   ) {
-    this.isLoggedIn = this._authService.isLoggedIn;
+    this._authService.isLoggedIn$
+      .subscribe((isLoggedIn: boolean) => {
+        this.isLoggedIn = isLoggedIn;
+      });
   }
 
   public signOut() {

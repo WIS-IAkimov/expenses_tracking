@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "http://expenses.devpython.ru/",
+    "secure": false
+  }
+}

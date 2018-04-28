@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col text-right">
+      <button class="btn btn-success mb-3" [routerLink]="['new']">Create expense</button>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Time</th>
+        <th scope="col">Description</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of expensesList$ | async">
+          <td>{{expense.created_at | date: 'longDate'}}</td>
+          <td>{{expense.created_at | date: 'mediumTime'}}</td>
+          <td>{{expense.description}}</td>
+          <td>{{expense.amount | currency}}</td>
+          <td>{{expense.comment}}</td>
+          <td>
+            <button class="btn btn-info" [routerLink]="[expense.id]">Edit</button>
+            <button class="btn btn-danger" (click)="removeExpense(expense.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item" [ngClass]="{'disabled': params.page === 1}">
+              <a class="page-link" aria-label="Previous" (click)="pageChange(params.page - 1)">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+            <ul class="pagination" *ngFor="let index of pageCount">
+              <li class="page-item"><a class="page-link" (click)="pageChange(index)">{{index}}</a></li>
+            </ul>
+            <li class="page-item" [ngClass]="{'disabled': params.page === pageCount.length}">
+              <a class="page-link" aria-label="Next" (click)="pageChange(params.page + 1)">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

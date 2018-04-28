@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <div class="row align-items-center justify-content-center">
+      <form (submit)="onSubmit()" class="text-center flex-column mb-5">
+        <h1 class="mb-3">Please login</h1>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Username or email"
+          [(ngModel)]="login.username"
+          [ngModelOptions]="{standalone: true}"
+          >
+        <input
+          type="password"
+          class="form-control mb-3"
+          placeholder="Password"
+          [(ngModel)]="login.password"
+          [ngModelOptions]="{standalone: true}"
+        >
+        <button class="btn btn-primary btn-block" type="submit">Login</button>
+      </form>
+  </div>
+</div>

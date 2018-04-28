@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center flex-column">
+    <form (submit)="signUp()" [formGroup]="signUpForm">
+      <h1 class="text-center">Sign up</h1>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          class="form-control"
+          formControlName="username"
+          aria-describedby="validationTooltipUsernamePrepend"
+          placeholder="Username"
+          required>
+        <div class="invalid-tooltip">
+          <div *ngFor="let error of generateErrors('username')">
+            <span>{{error}}</span>
+            <br>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" class="form-control" formControlName="first_name" placeholder="First Name" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" class="form-control" formControlName="last_name" placeholder="Last Name" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Password"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="confirmPswd">Confirm password</label>
+        <input
+          type="password"
+          id="confirmPswd"
+          class="form-control"
+          formControlName="password2"
+          placeholder="Confirm Password"
+          required
+        >
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Sign up</button>
+    </form>
+  </div>
+</div>

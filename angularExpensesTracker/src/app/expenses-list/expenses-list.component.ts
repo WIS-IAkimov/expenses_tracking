@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
-import {map, take} from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+
+import { PageChangedEvent } from 'ngx-bootstrap';
 
 import { ExpenseModel } from './expense.model';
 import { ExpenseService } from '../shared/expense.service';
@@ -25,8 +27,8 @@ class RequestParams {
 export class ExpensesListComponent implements OnInit {
 
   public expensesList$: Observable<ExpenseModel[]>;
-  public pageCount: number[];
   public params: RequestParams;
+  public totalItems: number;
 
   constructor(
     private _expenseService: ExpenseService,
@@ -34,7 +36,7 @@ export class ExpensesListComponent implements OnInit {
     private _router: Router
   ) {
     this.params = new RequestParams();
-    this.pageCount = [];
+    this.totalItems = 0;
   }
 
   ngOnInit() {
@@ -63,8 +65,8 @@ export class ExpensesListComponent implements OnInit {
       .subscribe(() => this.getExpenseList());
   }
 
-  public pageChange(index: number) {
-    this.params.page = index;
+  public pageChanged(event: PageChangedEvent) {
+    this.params.page = event.page;
     this._router.navigate(['/'], {relativeTo: this._route, queryParams: this.params});
   }
 
@@ -75,17 +77,10 @@ export class ExpensesListComponent implements OnInit {
   }
 
   private getExpenseList() {
-    const expensesPaginator$ = this._expenseService.getExpenseList({page: this.params.page});
-
-    this.expensesList$ = expensesPaginator$.pipe(map(data => data.results));
-    !this.pageCount.length && expensesPaginator$.pipe(take(1))
-      .subscribe(data => {
-      const count = Math.ceil(+data.count / 20);
-
-      for (let i = 1; i <= count; i++) {
-        this.pageCount.push(i);
-      }
-    });
+    this.expensesList$ = this._expenseService.getExpenseList({page: this.params.page})
+      .pipe(map(data => {
+        this.totalItems = data.count;
+        return data.results
+      }));
   }
-
 }

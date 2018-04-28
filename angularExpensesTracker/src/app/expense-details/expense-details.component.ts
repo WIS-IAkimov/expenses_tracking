@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { take } from 'rxjs/operators';
@@ -23,7 +23,8 @@ export class ExpenseDetailsComponent implements OnInit {
   constructor(
     private _expenseService: ExpenseService,
     private _formBuilder: FormBuilder,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _router: Router
   ) {
     this.isNew = false;
   }
@@ -76,7 +77,15 @@ export class ExpenseDetailsComponent implements OnInit {
   private updateForm(expense$: Observable<ExpenseModel>) {
     expense$
       .pipe(take(1))
-      .subscribe((expense: ExpenseModel) => this.expenseForm.patchValue(new ExpenseModel(expense)));
+      .subscribe((expense: ExpenseModel) => {
+        this.expenseForm.patchValue(new ExpenseModel(expense));
+        if (this.isNew) {
+          const url = this._router.url.split('new')[0] + expense.id.toString();
+
+          this.isNew = false;
+          this._router.navigate([url], {replaceUrl: true});
+        }
+      });
   }
 
 }

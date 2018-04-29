@@ -11,18 +11,21 @@
         <th scope="col" class="filterable">
           <div class="align-items-center">
             <span>Date</span>
-            <i class="fa fa-filter justify-content-end mr-3" (click)="rangeIsOpen = !rangeIsOpen"></i>
+            <i class="fa fa-filter justify-content-end mr-3" (click)="dateRangeIsOpen = !dateRangeIsOpen"></i>
           </div>
         </th>
         <th scope="col">Time</th>
         <th scope="col">Description</th>
-        <th scope="col">Amount</th>
+        <th scope="col" class="filterable">
+          <span>Amount</span>
+          <i class="fa fa-filter justify-content-end mr-3" (click)="amountRangeIsOpen = !amountRangeIsOpen"></i>
+        </th>
         <th scope="col">Comment</th>
         <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
-      <tr [hidden]="!rangeIsOpen">
+      <tr [hidden]="!dateRangeIsOpen && !amountRangeIsOpen">
         <td>
           <input
             type="text"
@@ -31,13 +34,16 @@
             placement="right"
             [ngModel]="dateRange"
             [bsConfig]="{ rangeInputFormat: 'MM/DD/YYYY' }"
-            [isOpen]="rangeIsOpen"
+            [isOpen]="dateRangeIsOpen"
             (bsValueChange)="dateRangeChanged($event)"
           >
         </td>
         <td></td>
         <td></td>
-        <td></td>
+        <td>
+          <input type="number" class="form-control" placeholder="Min amount">
+          <input type="number" class="form-control" placeholder="Max amount">
+        </td>
         <td></td>
         <td></td>
       </tr>

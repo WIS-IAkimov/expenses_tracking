@@ -23,7 +23,9 @@ export class ExpensesListComponent implements OnInit {
   public params: RequestParams;
   public totalItems: number;
   public dateRange = null;
-  public rangeIsOpen: boolean;
+  public dateRangeIsOpen: boolean;
+  public amountRangeIsOpen: boolean;
+
 
   constructor(
     private _expenseService: ExpenseService,
@@ -31,7 +33,8 @@ export class ExpensesListComponent implements OnInit {
   ) {
     this.params = new RequestParams();
     this.totalItems = 0;
-    this.rangeIsOpen = false;
+    this.dateRangeIsOpen = false;
+    this.amountRangeIsOpen = false;
   }
 
   ngOnInit() {

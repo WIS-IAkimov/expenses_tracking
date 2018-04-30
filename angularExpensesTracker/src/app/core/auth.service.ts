@@ -9,6 +9,7 @@ import { ApiUrlService } from './api-url.service';
 export class AuthService {
 
   public isLoggedIn$: EventEmitter<boolean>;
+  public user: any;
 
   constructor(
     private _apiUrlService: ApiUrlService,
@@ -23,6 +24,7 @@ export class AuthService {
     const auth = JSON.parse(localStorage.getItem('auth'));
 
     if (auth) {
+      this.user = auth.user;
       this._http.post(this._apiUrlService.tokenVerify, {token: auth.token})
         .pipe(take(1))
         .subscribe({

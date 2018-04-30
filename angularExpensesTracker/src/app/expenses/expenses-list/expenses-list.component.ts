@@ -7,8 +7,8 @@ import { PageChangedEvent } from 'ngx-bootstrap';
 
 import { ExpenseModel } from './expense.model';
 import { ExpenseService } from '../shared/expense.service';
-import { RequestParams } from '../shared/request-params.model';
-import { PaginationService } from '../shared/pagination.service';
+import { RequestParams } from '../../core/request-params.model';
+import { PaginationService } from '../../core/pagination.service';
 
 
 @Component({
@@ -41,7 +41,9 @@ export class ExpensesListComponent implements OnInit {
     this._paginationService.getParams()
       .subscribe((params: RequestParams) => {
         this.params = params;
-        this.dateRange = [new Date(this.params.start_date), new Date(this.params.end_date)];
+        if (this.params.start_date && this.params.end_date) {
+          this.dateRange = [new Date(this.params.start_date), new Date(this.params.end_date)];
+        }
         this.getExpenseList();
       });
   }

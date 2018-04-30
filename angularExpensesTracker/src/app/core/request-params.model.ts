@@ -12,10 +12,13 @@ export class RequestParams {
   }
 
   get requestParams() {
-    return {
-      page: this.page,
-      start_date: new Date(this.start_date),
-      end_date: new Date(this.end_date)
-    }
+     let params: any = { page: this.page };
+     if (this.start_date) {
+       params['start_date'] = new Date(this.start_date);
+     }
+     if (this.end_date) {
+       params['end_date'] = new Date(this.end_date);
+     }
+    return params;
   }
 }

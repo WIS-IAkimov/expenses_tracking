@@ -1,12 +1,20 @@
-<div class="container-fluid">
-  <div class="row mb-3 mt-3">
-    <div class="col text-right">
-      <button class="btn btn-success" *ngIf="!isLoggedIn" [routerLink]="['/login']">Sign in</button>
-      <button class="btn btn-info" *ngIf="!isLoggedIn" [routerLink]="['/registration']">Sign up</button>
-      <button class="btn btn-default" *ngIf="isLoggedIn" (click)="signOut()">Sign out</button>
-    </div>
-  </div>
-</div>
-<div class="mb-5 mt-5">
+<nav class="navbar navbar-fixed-top flex-md-nowrap pt-3 pb-3 shadow justify-content-end">
+  <ul class="navbar-nav px-3 flex-row list-inline">
+    <li class="nav-item text-nowrap list-inline-item" *ngIf="!isLoggedIn">
+      <a [routerLink]="['/login']">Sign in</a>
+    </li>
+    <li class="nav-item text-nowrap list-inline-item" *ngIf="!isLoggedIn">
+      <a [routerLink]="['/registration']">Sign up</a>
+    </li>
+    <li class="nav-item text-nowrap list-inline-item" *ngIf="isLoggedIn">
+      <a (click)="signOut()">Sign out</a>
+    </li>
+    <li class="nav-item text-nowrap list-inline-item user ml-3" *ngIf="isLoggedIn">
+      <i class="fa fa-user" aria-hidden="true"></i>
+      <span class="text-capitalize">{{user.username}}</span>
+    </li>
+  </ul>
+</nav>
+<div class="mt-4 mb-4">
   <router-outlet></router-outlet>
 </div>

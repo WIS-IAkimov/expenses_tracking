@@ -16,7 +16,7 @@ import { ApiUrlService } from './core/api-url.service';
 import { AuthService } from './core/auth.service';
 import { AuthGuardService } from './core/auth-guard.service';
 import { AuthInterceptor } from './core/auth.interceptor';
-import { ExpenseService } from './shared/expense.service';
+import { ExpenseService } from './expenses/shared/expense.service';
 
 
 @NgModule({

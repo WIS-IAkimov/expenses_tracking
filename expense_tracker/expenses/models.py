@@ -37,7 +37,7 @@ class User(BaseUser):
         group = self.groups.last()
         if group:
             return group.name
-        return None
+        return settings.ACCESS_GROUPS_USER
 
     role = property(_get_role, _set_role)
 

@@ -1,7 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { map, take } from 'rxjs/operators';
 
 import { PageChangedEvent } from 'ngx-bootstrap';
@@ -10,7 +11,7 @@ import { ExpenseModel } from '../shared/expense.model';
 import { ExpenseService } from '../shared/expense.service';
 import { RequestParams } from '../../core/request-params.model';
 import { PaginationService } from '../../core/pagination.service';
-import {PrintingService} from '../../core/printing.service';
+import { PrintingService } from '../../core/printing.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ import {PrintingService} from '../../core/printing.service';
   styleUrls: ['./expenses-list.component.scss'],
   providers: [ PaginationService, PrintingService ]
 })
-export class ExpensesListComponent implements OnInit {
+export class ExpensesListComponent implements OnInit, OnDestroy {
 
   public expensesList$: Observable<ExpenseModel[]>;
   public params: RequestParams;
@@ -31,6 +32,7 @@ export class ExpensesListComponent implements OnInit {
   public noActions: boolean;
 
   @ViewChild('printSection') private _printContents: ElementRef;
+  private _paramsSubscription: Subscription;
 
   constructor(
     private _expenseService: ExpenseService,
@@ -51,7 +53,7 @@ export class ExpensesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._paginationService.getParams(this.params)
+    this._paramsSubscription = this._paginationService.getParams(this.params)
       .subscribe((params: RequestParams) => {
         this.params = params;
         if (this.params.created_from && this.params.created_to) {
@@ -62,6 +64,10 @@ export class ExpensesListComponent implements OnInit {
         }
         this.getExpenseList();
       });
+  }
+
+  ngOnDestroy() {
+    this._paramsSubscription && this._paramsSubscription.unsubscribe();
   }
 
   public print(): void {

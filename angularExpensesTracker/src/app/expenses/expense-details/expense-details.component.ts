@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -27,10 +27,10 @@ export class ExpenseDetailsComponent implements OnInit {
     private _router: Router
   ) {
     this.isNew = false;
+    this.initForm();
   }
 
   ngOnInit() {
-    this.initForm();
     this.getUrlParams();
     !this.isNew && this.getExpense();
   }
@@ -38,13 +38,38 @@ export class ExpenseDetailsComponent implements OnInit {
   public save() {
     if (this.expenseForm.valid) {
       this.isNew ? this.createExpense() : this.updateExpense();
+    } else {
+      Object.keys(this.expenseForm.controls).forEach((key) => {
+        this.expenseForm.get(key).markAsTouched();
+        this.expenseForm.get(key).markAsDirty();
+      });
     }
   }
 
-  reset() {
+  public reset() {
     this._expenseService.selectedExpense$
       .pipe(take(1))
       .subscribe((expense: ExpenseModel) => this.expenseForm.patchValue(expense));
+  }
+
+  public generateErrors(name: string) {
+    const control = this.expenseForm.get(name);
+    let errorsDescription = [];
+
+    if (control.invalid) {
+      Object.keys(control.errors).forEach((key: string) => {
+        switch (key) {
+          case 'required': errorsDescription.push(`${name} required!`); break;
+          case 'min': errorsDescription.push(`${name} should be positive!`); break;
+        }
+      });
+    }
+
+    return errorsDescription;
+  }
+
+  public validStatus(control: FormControl) {
+    return control.invalid && control.touched && control.dirty;
   }
 
   private initForm() {

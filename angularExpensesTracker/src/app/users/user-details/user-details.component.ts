@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -40,19 +40,43 @@ export class UserDetailsComponent implements OnInit {
   public save() {
     if (this.userForm.valid) {
       this.updateUser();
+    } else {
+      Object.keys(this.userForm.controls).forEach((key) => {
+        this.userForm.get(key).markAsTouched();
+        this.userForm.get(key).markAsDirty();
+      });
     }
   }
 
-  reset() {
+  public reset() {
     this.updateForm(this._userService.selectedUser$);
+  }
+
+  public validStatus(control: FormControl) {
+    return control.invalid && control.touched && control.dirty;
+  }
+
+  public generateErrors(name: string) {
+    const control = this.userForm.get(name);
+    let errorsDescription = [];
+
+    if (control.invalid) {
+      Object.keys(control.errors).forEach((key: string) => {
+        switch (key) {
+          case 'required': errorsDescription.push(`${name} required!`); break;
+        }
+      });
+    }
+
+    return errorsDescription;
   }
 
   private initForm() {
     this.userForm = this._formBuilder.group({
       id: [''],
       username: ['', Validators.required],
-      first_name: ['', Validators.required],
-      last_name: ['', Validators.required],
+      first_name: [''],
+      last_name: [''],
       role: ['', Validators.required]
     });
   }

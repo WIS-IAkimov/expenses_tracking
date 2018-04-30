@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { map, take } from 'rxjs/operators';
 
 import { PageChangedEvent } from 'ngx-bootstrap';
@@ -16,11 +17,12 @@ import { PaginationService } from '../../core/pagination.service';
   styleUrls: ['./users-list.component.scss'],
   providers: [ PaginationService ]
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, OnDestroy {
 
   public usersList$: Observable<UserModel[]>;
   public params: RequestParams;
   public totalItems: number;
+  private _paramsSubscription: Subscription;
 
 
   constructor(
@@ -32,12 +34,16 @@ export class UsersListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._paginationService.getParams()
+    this._paramsSubscription = this._paginationService.getParams()
       .subscribe((params: RequestParams) => {
         this.params = params;
         if (this.params.created_from && this.params.created_to) {}
         this.getUsersList();
       });
+  }
+
+  ngOnDestroy() {
+    this._paramsSubscription && this._paramsSubscription.unsubscribe();
   }
 
   public removeUser(id: number) {

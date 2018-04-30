@@ -7,6 +7,8 @@ import { ExpenseDetailsComponent } from './expenses/expense-details/expense-deta
 import { ExpensesListComponent } from './expenses/expenses-list/expenses-list.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
 
 const routes: Routes = [
   {
@@ -30,7 +32,19 @@ const routes: Routes = [
             path: 'expenses/:id',
             canActivate: [AuthGuardService],
             component: ExpenseDetailsComponent
-          }
+          },
+          {
+            path: 'users',
+            canActivate: [AuthGuardService],
+            component: UsersListComponent,
+            data: { expectedRole: 'admin' }
+          },
+          {
+            path: 'users/:id',
+            canActivate: [AuthGuardService],
+            component: UserDetailsComponent,
+            data: { expectedRole: 'admin' }
+          },
         ]
       },
       {
@@ -59,7 +73,9 @@ export const appComponents = [
   ExpenseDetailsComponent,
   ExpensesListComponent,
   LoginComponent,
-  RegistrationComponent
+  RegistrationComponent,
+  UserDetailsComponent,
+  UsersListComponent
 ];
 
 

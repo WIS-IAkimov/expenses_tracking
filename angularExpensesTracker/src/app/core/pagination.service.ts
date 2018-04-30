@@ -87,8 +87,8 @@ export class PaginationService implements OnDestroy {
   }
 
   private navigateUrl(params: RequestParams, replaceUrl?: boolean) {
-    this._router.navigate(['/'],
-      {queryParams: params, replaceUrl: replaceUrl, relativeTo: this._route});
+    this._router.navigate([this._router.url.split('?').join()],
+      {queryParams: params, replaceUrl: replaceUrl});
   }
 
   private validateParams(params: ParamMap) {

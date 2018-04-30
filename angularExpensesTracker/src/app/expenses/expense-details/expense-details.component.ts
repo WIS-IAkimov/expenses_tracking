@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { take } from 'rxjs/operators';
 
 import { ExpenseService } from '../shared/expense.service';
-import { ExpenseModel } from '../expenses-list/expense.model';
+import { ExpenseModel } from '../shared/expense.model';
 
 @Component({
   selector: 'exp-expense-details',
@@ -87,5 +87,4 @@ export class ExpenseDetailsComponent implements OnInit {
         }
       });
   }
-
 }

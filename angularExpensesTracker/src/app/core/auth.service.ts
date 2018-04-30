@@ -45,6 +45,7 @@ export class AuthService {
   public signIn(query) {
     return this._http.post(this._apiUrlService.login, query, this._apiUrlService.options)
       .pipe(map(data => {
+        this.user = data.user;
         localStorage.setItem('auth', JSON.stringify(data));
         this.isLoggedIn$.emit(true);
 
@@ -60,6 +61,7 @@ export class AuthService {
   public signUp(query) {
     return this._http.post(this._apiUrlService.registration, query, this._apiUrlService.options).
       pipe(map((data) => {
+        this.user = data.user;
         localStorage.setItem('auth', JSON.stringify(data));
         this.isLoggedIn$.emit(true);
 

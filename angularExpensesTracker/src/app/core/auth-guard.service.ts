@@ -13,12 +13,17 @@ export class AuthGuardService implements CanActivate {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const url = state.url;
+    let status = this.checkLogin(url);
 
-    return this.checkLogin(url)
+    if (status) {
+      status = this.checkPermission(route);
+    }
+
+    return status;
   }
 
 
-  private checkLogin(url: string) {
+  private checkLogin(url: string): boolean {
     const isLoggedIn = !!localStorage.getItem('auth');
 
     if (url.indexOf('login') !== -1 || url.indexOf('registration') !== -1) {
@@ -29,6 +34,23 @@ export class AuthGuardService implements CanActivate {
       !isLoggedIn && this._router.navigate(['/login']);
 
       return isLoggedIn;
+    }
+  }
+
+  private checkPermission(route): boolean {
+    const expectedRole = route.data.expectedRole;
+    if (expectedRole) {
+      const user = JSON.parse(localStorage.getItem('auth')).user;
+
+      if (user.role !== expectedRole) {
+        this._router.navigate(['/']);
+
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
     }
   }
 }

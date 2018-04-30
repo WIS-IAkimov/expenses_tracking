@@ -5,7 +5,7 @@ import { map, take } from 'rxjs/operators';
 
 import { PageChangedEvent } from 'ngx-bootstrap';
 
-import { ExpenseModel } from './expense.model';
+import { ExpenseModel } from '../shared/expense.model';
 import { ExpenseService } from '../shared/expense.service';
 import { RequestParams } from '../../core/request-params.model';
 import { PaginationService } from '../../core/pagination.service';

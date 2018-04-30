@@ -1,17 +1,22 @@
 from django.conf import settings
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from expenses.models import Expense
+from expenses.models import Expense, User
 
-UserModel = get_user_model()
+UserModel = User
+
+ROLE_CHOICES = (
+    (settings.ACCESS_GROUPS_USER, settings.ACCESS_GROUPS_USER),
+    (settings.ACCESS_GROUPS_MANAGER, settings.ACCESS_GROUPS_MANAGER),
+    (settings.ACCESS_GROUPS_ADMIN, settings.ACCESS_GROUPS_ADMIN)
+)
 
 
 class UserLoginSerializer(serializers.Serializer):
-
     username = serializers.CharField()
     password = serializers.CharField()
 
@@ -71,29 +76,14 @@ class UserPasswordSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    role = serializers.SerializerMethodField(read_only=True)
-
-    def get_role(self, obj):
-        role = obj.groups.last()
-        role_name = settings.ACCESS_GROUPS_USER
-        if role:
-            role_name = role.name
-        return role_name.lower()
+    role = serializers.ChoiceField(choices=ROLE_CHOICES)
 
     class Meta:
         model = UserModel
-        fields = (
-            'id', 'username', 'first_name', 'last_name', 'role'
-        )
+        fields = ('id', 'username', 'first_name', 'last_name', 'role')
 
 
 class UserCreateSerializer(UserSerializer):
-    ROLE_CHOICES = (
-        (settings.ACCESS_GROUPS_USER, settings.ACCESS_GROUPS_USER),
-        (settings.ACCESS_GROUPS_MANAGER, settings.ACCESS_GROUPS_MANAGER),
-        (settings.ACCESS_GROUPS_ADMIN, settings.ACCESS_GROUPS_ADMIN)
-    )
-
     password = serializers.CharField(write_only=True,
                                      validators=[validate_password])
     role = serializers.ChoiceField(choices=ROLE_CHOICES, write_only=True)

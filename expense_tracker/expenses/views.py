@@ -10,10 +10,10 @@ from rest_framework_jwt.settings import api_settings
 
 from expenses import serializers as app_serializers, utils
 from expenses.filters import ExpensesFilter
-from expenses.models import Expense
+from expenses.models import Expense, User
 from expenses.permissions import RolePermission, UnAuthenticated
 
-UserModel = get_user_model()
+UserModel = User
 
 
 class ExpenseViewSet(viewsets.ModelViewSet):

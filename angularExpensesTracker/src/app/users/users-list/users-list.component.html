@@ -6,11 +6,25 @@
         <th scope="col">Username</th>
         <th scope="col">First name</th>
         <th scope="col">Last name</th>
-        <th scope="col">Role</th>
+        <th scope="col" class="filterable">
+          <span>Role</span>
+          <i class="fa fa-filter justify-content-end mr-3" (click)="filterIsOpen = !filterIsOpen"></i>
+        </th>
         <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
+      <tr *ngIf="filterIsOpen">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <select class="form-control text-capitalize" [(ngModel)]="params.role" (change)="roleChanged()">
+            <option class="text-capitalize" *ngFor="let role of roles" value="{{role}}">{{role}}</option>
+          </select>
+        </td>
+        <td></td>
+      </tr>
       <tr *ngFor="let user of usersList$ | async">
         <td>{{user.username }}</td>
         <td>{{user.first_name }}</td>

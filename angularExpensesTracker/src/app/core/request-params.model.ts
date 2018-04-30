@@ -6,13 +6,15 @@ export class RequestParams {
   public created_from: string;
   public created_to: string;
   public user: string;
+  public role: string;
 
   constructor(data: any = {}) {
     this.page = data.page || 1;
     this.page_size = data.page_size || 20;
     this.created_from = data.created_from || null;
     this.created_to = data.created_to || null;
-    this.user = data.user || void 0
+    this.user = data.user || void 0;
+    this.role = data.role || void 0;
   }
 
   get requestParams() {
@@ -31,6 +33,7 @@ export class RequestParams {
       params['amount_to'] = this.amount_to;
     }
     if (this.user) { params.user = this.user; }
+    if (this.role) { params.role = this.role; }
     return params;
   }
 }

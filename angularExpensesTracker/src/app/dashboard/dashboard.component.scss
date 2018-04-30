@@ -1,0 +1,10 @@
+.right-menu {
+  li {
+    .nav-link {
+      color: inherit;
+      &.active {
+        color: #007bff;
+      }
+    }
+  }
+}

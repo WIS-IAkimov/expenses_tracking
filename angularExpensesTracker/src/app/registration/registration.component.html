@@ -1,33 +1,59 @@
-<div class="container-fluid">
+<div class="container-fluid" >
   <div class="row justify-content-center align-items-center flex-column">
-    <form (submit)="signUp()" [formGroup]="signUpForm">
+    <form (submit)="signUp()" [formGroup]="signUpForm" novalidate>
       <h1 class="text-center">Sign up</h1>
-      <div class="form-group">
+      <div class="form-group position-relative">
         <label for="username">Username</label>
         <input
           type="text"
           id="username"
           class="form-control"
           formControlName="username"
-          aria-describedby="validationTooltipUsernamePrepend"
           placeholder="Username"
+          [ngClass]="{'is-invalid': validStatus(signUpForm.get('username'))}"
           required>
-        <div class="invalid-tooltip">
+        <div class="invalid-tooltip d-block" *ngIf="validStatus(signUpForm.get('username'))">
           <div *ngFor="let error of generateErrors('username')">
             <span>{{error}}</span>
             <br>
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group position-relative">
         <label for="firstName">First Name</label>
-        <input type="text" id="firstName" class="form-control" formControlName="first_name" placeholder="First Name" required>
+        <input
+          type="text"
+          id="firstName"
+          class="form-control"
+          formControlName="first_name"
+          placeholder="First Name"
+          [ngClass]="{'is-invalid': validStatus(signUpForm.get('first_name'))}"
+          required>
+        <div class="invalid-tooltip d-block" *ngIf="validStatus(signUpForm.get('first_name'))">
+          <div *ngFor="let error of generateErrors('first_name')">
+            <span>{{error}}</span>
+            <br>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
+      <div class="form-group position-relative">
         <label for="lastName">Last Name</label>
-        <input type="text" id="lastName" class="form-control" formControlName="last_name" placeholder="Last Name" required>
+        <input
+          type="text"
+          id="lastName"
+          class="form-control"
+          formControlName="last_name"
+          placeholder="Last Name"
+          [ngClass]="{'is-invalid': validStatus(signUpForm.get('last_name'))}"
+          required>
+        <div class="invalid-tooltip d-block" *ngIf="validStatus(signUpForm.get('last_name'))">
+          <div *ngFor="let error of generateErrors('last_name')">
+            <span>{{error}}</span>
+            <br>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
+      <div class="form-group position-relative">
         <label for="password">Password</label>
         <input
           type="password"
@@ -35,19 +61,34 @@
           class="form-control"
           formControlName="password"
           placeholder="Password"
+          [ngClass]="{'is-invalid': validStatus(signUpForm.get('password'))}"
           required
         >
+        <div class="invalid-tooltip d-block" *ngIf="validStatus(signUpForm.get('password'))">
+          <div *ngFor="let error of generateErrors('password')">
+            <span>{{error}}</span>
+            <br>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
+      <div class="form-group position-relative">
         <label for="confirmPswd">Confirm password</label>
         <input
           type="password"
           id="confirmPswd"
           class="form-control"
+          validateEqual="password"
           formControlName="password2"
           placeholder="Confirm Password"
+          [ngClass]="{'is-invalid': validStatus(signUpForm.get('password2'))}"
           required
         >
+        <div class="invalid-tooltip d-block" *ngIf="validStatus(signUpForm.get('password2'))">
+          <div *ngFor="let error of generateErrors('password2')">
+            <span>{{error}}</span>
+            <br>
+          </div>
+        </div>
       </div>
       <button class="btn btn-primary btn-block" type="submit">Sign up</button>
     </form>

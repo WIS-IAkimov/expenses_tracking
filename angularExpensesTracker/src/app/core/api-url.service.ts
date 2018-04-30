@@ -10,6 +10,10 @@ export class ApiUrlService {
 
   constructor() { }
 
+  get expenses() {
+    return `${this._base}/expenses/`;
+  }
+
   get login() {
     return `${this._base}/users/login/`;
   }
@@ -22,16 +26,16 @@ export class ApiUrlService {
     return `${this._base}/users/registration/`;
   }
 
-  get expenses() {
-    return `${this._base}/expenses/`;
+  get tokenRefresh() {
+    return `${this._base}/token-refresh/`;
   }
 
   get tokenVerify() {
     return `${this._base}/token-verify/`;
   }
 
-  get tokenRefresh() {
-    return `${this._base}/token-refresh/`;
+  get users() {
+    return `${this._base}/users/`;
   }
 
   get options() {
@@ -45,6 +49,10 @@ export class ApiUrlService {
 
   public getExpense(id: number) {
     return `${this._base}/expenses/${id}/`;
+  }
+
+  public getUser(id: number) {
+    return `${this._base}/users/${id}/`;
   }
 
 }

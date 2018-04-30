@@ -4,6 +4,8 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 
+import { isArray } from 'util';
+
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
@@ -37,12 +39,16 @@ export class AuthInterceptor implements HttpInterceptor {
       }));
   }
 
-  private getErrorContent(list: string[]): string {
+  private getErrorContent(error: any): string {
     let content = '';
 
-    list.forEach(segment => {
-      content += `<span>${segment}</span><br>`;
-    });
+    if (isArray(error)) {
+      error.forEach(segment => {
+        content += `<span>${segment}</span><br>`;
+      });
+    } else {
+      content = error;
+    }
 
     return content;
   }

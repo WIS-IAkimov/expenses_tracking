@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -15,7 +16,8 @@ import { ApiUrlService } from './core/api-url.service';
 import { AuthService } from './core/auth.service';
 import { AuthGuardService } from './core/auth-guard.service';
 import { AuthInterceptor } from './core/auth.interceptor';
-import { ExpenseService } from './shared/expense.service';
+import { ExpenseService } from './expenses/shared/expense.service';
+import { UserService } from './users/shared/user.service';
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { ExpenseService } from './shared/expense.service';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    PaginationModule.forRoot(),
     ReactiveFormsModule,
     TimepickerModule.forRoot(),
     ToastrModule.forRoot()
@@ -39,6 +42,7 @@ import { ExpenseService } from './shared/expense.service';
     AuthService,
     AuthGuardService,
     ExpenseService,
+    UserService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [ AppComponent ]

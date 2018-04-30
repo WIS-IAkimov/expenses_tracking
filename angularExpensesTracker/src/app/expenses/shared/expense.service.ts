@@ -7,8 +7,8 @@ import { map, take } from 'rxjs/operators';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { ApiUrlService } from '../core/api-url.service';
-import { ExpenseModel } from '../expenses-list/expense.model';
+import { ApiUrlService } from '../../core/api-url.service';
+import { ExpenseModel } from './expense.model';
 
 @Injectable()
 export class ExpenseService {

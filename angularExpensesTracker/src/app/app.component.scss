@@ -1,0 +1,17 @@
+.navbar {
+  background-color: #343a40;
+
+  .nav-item>a {
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+      color: #ebebeb;
+    }
+  }
+
+  .user {
+    color: #fff
+  }
+}

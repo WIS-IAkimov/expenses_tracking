@@ -9,6 +9,7 @@ import { ApiUrlService } from './api-url.service';
 export class AuthService {
 
   public isLoggedIn$: EventEmitter<boolean>;
+  public user: any;
 
   constructor(
     private _apiUrlService: ApiUrlService,
@@ -23,6 +24,7 @@ export class AuthService {
     const auth = JSON.parse(localStorage.getItem('auth'));
 
     if (auth) {
+      this.user = auth.user;
       this._http.post(this._apiUrlService.tokenVerify, {token: auth.token})
         .pipe(take(1))
         .subscribe({
@@ -42,7 +44,8 @@ export class AuthService {
 
   public signIn(query) {
     return this._http.post(this._apiUrlService.login, query, this._apiUrlService.options)
-      .pipe(map(data => {
+      .pipe(map((data: any) => {
+        this.user = data.user;
         localStorage.setItem('auth', JSON.stringify(data));
         this.isLoggedIn$.emit(true);
 
@@ -57,7 +60,8 @@ export class AuthService {
 
   public signUp(query) {
     return this._http.post(this._apiUrlService.registration, query, this._apiUrlService.options).
-      pipe(map((data) => {
+      pipe(map((data: any) => {
+        this.user = data.user;
         localStorage.setItem('auth', JSON.stringify(data));
         this.isLoggedIn$.emit(true);
 

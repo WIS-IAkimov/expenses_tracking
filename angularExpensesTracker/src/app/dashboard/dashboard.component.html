@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column right-menu">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/expenses']" routerLinkActive="active">
+              <i class="fa fa-file"></i>
+              <span>Expense List</span>
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="user.role === 'admin'">
+            <a class="nav-link" [routerLink]="['/users']" routerLinkActive="active">
+              <i class="fa fa-users" aria-hidden="true"></i>
+              <span>Users</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="col-md-10">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

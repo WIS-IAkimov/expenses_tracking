@@ -15,3 +15,16 @@
     color: #fff
   }
 }
+
+:host ::ng-deep .filterable {
+  .fa-filter {
+    display: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    .fa-filter {
+      display: inline-block;
+    }
+  }
+}

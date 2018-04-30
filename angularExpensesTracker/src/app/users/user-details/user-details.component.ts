@@ -28,7 +28,7 @@ export class UserDetailsComponent implements OnInit {
     this.roles = [];
     Object.keys(Role).forEach((key: string) => {
       this.roles.push(Role[key]);
-    })
+    });
   }
 
   ngOnInit() {

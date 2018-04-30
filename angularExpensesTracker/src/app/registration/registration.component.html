@@ -28,7 +28,7 @@
           formControlName="first_name"
           placeholder="First Name"
           [ngClass]="{'is-invalid': validStatus(signUpForm.get('first_name'))}"
-          required>
+          >
         <div class="invalid-tooltip d-block" *ngIf="validStatus(signUpForm.get('first_name'))">
           <div *ngFor="let error of generateErrors('first_name')">
             <span>{{error}}</span>
@@ -45,7 +45,7 @@
           formControlName="last_name"
           placeholder="Last Name"
           [ngClass]="{'is-invalid': validStatus(signUpForm.get('last_name'))}"
-          required>
+          >
         <div class="invalid-tooltip d-block" *ngIf="validStatus(signUpForm.get('last_name'))">
           <div *ngFor="let error of generateErrors('last_name')">
             <span>{{error}}</span>

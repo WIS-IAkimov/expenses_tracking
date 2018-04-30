@@ -6,7 +6,7 @@ import { map, take } from 'rxjs/operators';
 
 import { PageChangedEvent } from 'ngx-bootstrap';
 
-import { UserModel } from '../shared/user.model';
+import {Role, UserModel} from '../shared/user.model';
 import { UserService } from '../shared/user.service';
 import { RequestParams } from '../../core/request-params.model';
 import { PaginationService } from '../../core/pagination.service';
@@ -22,6 +22,9 @@ export class UsersListComponent implements OnInit, OnDestroy {
   public usersList$: Observable<UserModel[]>;
   public params: RequestParams;
   public totalItems: number;
+  public filterIsOpen: boolean;
+  public roles: string[];
+
   private _paramsSubscription: Subscription;
 
 
@@ -31,13 +34,17 @@ export class UsersListComponent implements OnInit, OnDestroy {
   ) {
     this.params = new RequestParams();
     this.totalItems = 0;
+    this.filterIsOpen = false;
+    this.roles = [];
+    Object.keys(Role).forEach((key: string) => {
+      this.roles.push(Role[key]);
+    })
   }
 
   ngOnInit() {
     this._paramsSubscription = this._paginationService.getParams()
       .subscribe((params: RequestParams) => {
         this.params = params;
-        if (this.params.created_from && this.params.created_to) {}
         this.getUsersList();
       });
   }
@@ -55,6 +62,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
   public pageChanged(event: PageChangedEvent) {
     this.params.page = event.page;
 
+    this._paginationService.setParams(this.params);
+  }
+
+  public roleChanged() {
     this._paginationService.setParams(this.params);
   }
 

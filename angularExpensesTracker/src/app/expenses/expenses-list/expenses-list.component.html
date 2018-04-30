@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col text-right">
+    <div class="col text-right" *ngIf="!noActions">
       <button class="btn btn-success mb-3" [routerLink]="['new']">Create expense</button>
     </div>
   </div>
@@ -21,7 +21,7 @@
           <i class="fa fa-filter justify-content-end mr-3" (click)="amountRangeIsOpen = !amountRangeIsOpen"></i>
         </th>
         <th scope="col">Comment</th>
-        <th scope="col">Actions</th>
+        <th scope="col" *ngIf="!noActions">Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -52,7 +52,7 @@
           <td>{{expense.description}}</td>
           <td>{{expense.amount | currency}}</td>
           <td>{{expense.comment}}</td>
-          <td>
+          <td *ngIf="!noActions">
             <button class="btn btn-info pt-0 pb-0 pl-1 pr-1" [routerLink]="[expense.id]"><i class="fa fa-pencil"></i></button>
             <button class="btn btn-danger pt-0 pb-0 pl-1 pr-1" (click)="removeExpense(expense.id)"><i class="fa fa-trash"></i></button>
           </td>

@@ -45,6 +45,11 @@ const routes: Routes = [
             component: UserDetailsComponent,
             data: { expectedRole: 'admin' }
           },
+          {
+            path: 'users/:id/expenses',
+            canActivate: [AuthGuardService],
+            component: ExpensesListComponent
+          }
         ]
       },
       {

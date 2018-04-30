@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import { map, take } from 'rxjs/operators';
@@ -9,6 +10,7 @@ import { ExpenseModel } from '../shared/expense.model';
 import { ExpenseService } from '../shared/expense.service';
 import { RequestParams } from '../../core/request-params.model';
 import { PaginationService } from '../../core/pagination.service';
+import { UserService } from '../../users/shared/user.service';
 
 
 @Component({
@@ -25,27 +27,27 @@ export class ExpensesListComponent implements OnInit {
   public dateRange = null;
   public dateRangeIsOpen: boolean;
   public amountRangeIsOpen: boolean;
-
+  public noActions: boolean;
 
   constructor(
     private _expenseService: ExpenseService,
     private _paginationService: PaginationService,
+    private _router: Router,
+    private _userService: UserService
   ) {
     this.params = new RequestParams();
     this.totalItems = 0;
     this.dateRangeIsOpen = false;
     this.amountRangeIsOpen = false;
+    this.noActions = false;
+    if (this._router.url.indexOf('users') !== -1) {
+      this.params.user = this._router.url.split('?')[0].split('/')[2];
+      this.noActions = true;
+    }
   }
 
   ngOnInit() {
-    this._paginationService.getParams()
-      .subscribe((params: RequestParams) => {
-        this.params = params;
-        if (this.params.start_date && this.params.end_date) {
-          this.dateRange = [new Date(this.params.start_date), new Date(this.params.end_date)];
-        }
-        this.getExpenseList();
-      });
+      this.getParams();
   }
 
   public removeExpense(id: number) {
@@ -66,6 +68,16 @@ export class ExpensesListComponent implements OnInit {
       this.params.end_date = dates[1].toISOString();
       this._paginationService.setParams(this.params);
     }
+  }
+  private getParams() {
+    this._paginationService.getParams(this.params)
+      .subscribe((params: RequestParams) => {
+        this.params = params;
+        if (this.params.start_date && this.params.end_date) {
+          this.dateRange = [new Date(this.params.start_date), new Date(this.params.end_date)];
+        }
+        this.getExpenseList();
+      });
   }
 
   private getExpenseList() {

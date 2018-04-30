@@ -15,12 +15,15 @@ import { AuthService } from '../core/auth.service';
 export class RegistrationComponent implements OnInit {
 
   public signUpForm: FormGroup;
+  public formInvalid: boolean;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _authService: AuthService,
     private _router: Router
-  ) { }
+  ) {
+    this.formInvalid = false;
+  }
 
   ngOnInit() {
     this.signUpForm = this._formBuilder.group({
@@ -40,13 +43,15 @@ export class RegistrationComponent implements OnInit {
         .pipe(take(1))
         .subscribe(() => this._router.navigate(['/']));
     }
+
+    this.formInvalid = this.signUpForm.invalid;
   }
 
   public generateErrors(name: string) {
     const control = this.signUpForm.get(name);
     let errorsDescription = [];
 
-    if (control.invalid && control.touched) {
+    if (control.invalid) {
       Object.keys(control.errors).forEach((key: string) => {
         switch (key) {
           case 'email': errorsDescription.push('Incorrect email!'); break;

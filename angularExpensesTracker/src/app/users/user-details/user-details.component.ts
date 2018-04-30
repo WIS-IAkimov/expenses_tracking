@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -52,7 +52,7 @@ export class UserDetailsComponent implements OnInit {
     this.updateForm(this._userService.selectedUser$);
   }
 
-  public validStatus(control: FormControl) {
+  public validStatus(control: AbstractControl) {
     return control.invalid && control.touched && control.dirty;
   }
 

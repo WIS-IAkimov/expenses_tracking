@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -68,7 +68,7 @@ export class ExpenseDetailsComponent implements OnInit {
     return errorsDescription;
   }
 
-  public validStatus(control: FormControl) {
+  public validStatus(control: AbstractControl) {
     return control.invalid && control.touched && control.dirty;
   }
 

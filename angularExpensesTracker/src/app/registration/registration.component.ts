@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { take } from 'rxjs/operators';
@@ -33,7 +33,7 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  public validStatus(control: FormControl) {
+  public validStatus(control: AbstractControl) {
     return control.invalid && control.touched && control.dirty;
   }
 

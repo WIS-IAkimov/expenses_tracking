@@ -9,7 +9,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.settings import api_settings
 
 from expenses import serializers as app_serializers, utils
-from expenses.filters import ExpensesFilter
+from expenses.filters import ExpensesFilter, UserFilter
 from expenses.models import Expense, User
 from expenses.permissions import RolePermission, UnAuthenticated
 
@@ -44,6 +44,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = UserModel.objects.all().order_by('id')
     permission_classes = (IsAuthenticated, RolePermission)
     serializer_class = app_serializers.UserSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = UserFilter
     allowed_groups = (
         settings.ACCESS_GROUPS_MANAGER,
         settings.ACCESS_GROUPS_ADMIN

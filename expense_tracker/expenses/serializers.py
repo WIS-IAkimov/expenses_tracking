@@ -9,12 +9,6 @@ from expenses.models import Expense, User
 
 UserModel = User
 
-ROLE_CHOICES = (
-    (settings.ACCESS_GROUPS_USER, settings.ACCESS_GROUPS_USER),
-    (settings.ACCESS_GROUPS_MANAGER, settings.ACCESS_GROUPS_MANAGER),
-    (settings.ACCESS_GROUPS_ADMIN, settings.ACCESS_GROUPS_ADMIN)
-)
-
 
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -76,7 +70,7 @@ class UserPasswordSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    role = serializers.ChoiceField(choices=ROLE_CHOICES)
+    role = serializers.ChoiceField(choices=UserModel.ROLE_CHOICES)
 
     class Meta:
         model = UserModel
@@ -86,7 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserCreateSerializer(UserSerializer):
     password = serializers.CharField(write_only=True,
                                      validators=[validate_password])
-    role = serializers.ChoiceField(choices=ROLE_CHOICES, write_only=True)
+    role = serializers.ChoiceField(choices=UserModel.ROLE_CHOICES, write_only=True)
 
     def create(self, validated_data):
         password = validated_data.pop('password')

@@ -1,7 +1,8 @@
 import django_filters
+from django.conf import settings
 from django.db.models import Q
 
-from expenses.models import Expense
+from expenses.models import Expense, User
 
 
 class ExpensesFilter(django_filters.FilterSet):
@@ -26,3 +27,14 @@ class ExpensesFilter(django_filters.FilterSet):
             'amount_from', 'amount_to', 'search', 'created_from', 'created_to',
             'user'
         )
+
+
+class UserFilter(django_filters.FilterSet):
+    role = django_filters.ChoiceFilter(name='groups',
+                                       choices=User.ROLE_CHOICES,
+                                       lookup_expr='name',
+                                       label='Role')
+
+    class Meta:
+        model = User
+        fields = ('role',)

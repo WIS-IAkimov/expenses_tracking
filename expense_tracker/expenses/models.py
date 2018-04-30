@@ -17,6 +17,11 @@ class Expense(models.Model):
 
 
 class User(BaseUser):
+    ROLE_CHOICES = (
+        (settings.ACCESS_GROUPS_USER, settings.ACCESS_GROUPS_USER),
+        (settings.ACCESS_GROUPS_MANAGER, settings.ACCESS_GROUPS_MANAGER),
+        (settings.ACCESS_GROUPS_ADMIN, settings.ACCESS_GROUPS_ADMIN)
+    )
 
     def _set_role(self, value):
         print(value)

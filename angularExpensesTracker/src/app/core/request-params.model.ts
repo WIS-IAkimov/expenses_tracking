@@ -1,26 +1,34 @@
 export class RequestParams {
   public page: number;
   public page_size: number;
-  public start_date: string;
-  public end_date: string;
+  public amount_from: number;
+  public amount_to: number;
+  public created_from: string;
+  public created_to: string;
   public user: string;
 
   constructor(data: any = {}) {
     this.page = data.page || 1;
     this.page_size = data.page_size || 20;
-    this.start_date = data.start_date || null;
-    this.end_date = data.end_date || null;
+    this.created_from = data.created_from || null;
+    this.created_to = data.created_to || null;
     this.user = data.user || void 0
   }
 
   get requestParams() {
     let params: any = { page: this.page };
 
-    if (this.start_date) {
-      params['start_date'] = new Date(this.start_date);
+    if (this.created_from) {
+      params['created_from'] = new Date(this.created_from);
     }
-    if (this.end_date) {
-      params['end_date'] = new Date(this.end_date);
+    if (this.created_to) {
+      params['created_to'] = new Date(this.created_to);
+    }
+    if (this.amount_from) {
+      params['amount_from'] = this.amount_from;
+    }
+    if (this.amount_to) {
+      params['amount_to'] = this.amount_to;
     }
     if (this.user) { params.user = this.user; }
     return params;

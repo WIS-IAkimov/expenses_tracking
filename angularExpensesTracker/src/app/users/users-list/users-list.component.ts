@@ -35,7 +35,7 @@ export class UsersListComponent implements OnInit {
     this._paginationService.getParams()
       .subscribe((params: RequestParams) => {
         this.params = params;
-        if (this.params.start_date && this.params.end_date) {}
+        if (this.params.created_from && this.params.created_to) {}
         this.getUsersList();
       });
   }

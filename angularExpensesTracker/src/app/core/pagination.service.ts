@@ -87,7 +87,7 @@ export class PaginationService implements OnDestroy {
   }
 
   private navigateUrl(params: RequestParams, replaceUrl?: boolean) {
-    this._router.navigate([this._router.url.split('?').join()],
+    this._router.navigate([this._router.url.split('?', 1).join()],
       {queryParams: params, replaceUrl: replaceUrl});
   }
 
@@ -116,8 +116,8 @@ export class PaginationService implements OnDestroy {
           break;
         }
 
-        case 'start_date':
-        case 'end_date': {
+        case 'created_from':
+        case 'created_to': {
           currentParams[key] = paramValue;
           break;
         }

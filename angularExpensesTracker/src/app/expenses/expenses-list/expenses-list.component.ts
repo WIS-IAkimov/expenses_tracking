@@ -71,6 +71,8 @@ export class ExpensesListComponent implements OnInit {
 
     this.params.created_from = new Date(curr.setDate(first)).toISOString();
     this.params.created_to = new Date(curr.setDate(last)).toISOString();
+    this.params.amount_to = null;
+    this.params.amount_from = null;
     this.getExpenseList();
     setTimeout(() => {
       this._printingService.print(this._printContents.nativeElement);

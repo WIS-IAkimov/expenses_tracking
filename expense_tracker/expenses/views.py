@@ -101,7 +101,9 @@ class UserViewSet(viewsets.ModelViewSet):
     def login(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data
+        origin_user = serializer.validated_data
+        user = UserModel.objects.get(pk=origin_user.pk)
+        user.backend = origin_user.backend
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
         payload = jwt_payload_handler(user)

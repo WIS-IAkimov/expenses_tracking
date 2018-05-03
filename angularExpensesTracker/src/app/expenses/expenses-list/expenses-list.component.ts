@@ -72,14 +72,14 @@ export class ExpensesListComponent implements OnInit, OnDestroy {
 
   public print(): void {
     const curr = new Date;
-    const first = curr.getDate() - curr.getDay();
-    const last = first + 6;
+    const first = new Date(curr.getFullYear(), curr.getMonth(), curr.getDate() + (curr.getDay() == 0?-6:1)-curr.getDay());
+    const last = new Date(curr.getFullYear(), curr.getMonth(), curr.getDate() + (curr.getDay() == 0?0:7)-curr.getDay());
 
-    this.params.created_from = new Date(curr.setDate(first)).toISOString();
-    this.params.created_to = new Date(curr.setDate(last)).toISOString();
+    this.params.created_from = first.toISOString();
+    this.params.created_to = last.toISOString();
     this.params.amount_to = null;
     this.params.amount_from = null;
-    this.getExpenseList();
+    this._paginationService.setParams(this.params);
     setTimeout(() => {
       this._printingService.print(this._printContents.nativeElement);
     }, 500);

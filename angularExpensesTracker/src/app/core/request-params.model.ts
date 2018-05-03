@@ -21,10 +21,14 @@ export class RequestParams {
     let params: any = { page: this.page };
 
     if (this.created_from) {
-      params['created_from'] = new Date(this.created_from);
+      const date = new Date(this.created_from);
+
+      params['created_from'] = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
     if (this.created_to) {
-      params['created_to'] = new Date(this.created_to);
+      const date = new Date(this.created_to);
+
+      params['created_to'] = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
     if (this.amount_from) {
       params['amount_from'] = this.amount_from;

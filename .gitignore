@@ -15,6 +15,14 @@ node_modules
 npm-debug.*
 yarn-error.*
 yarn.lock
+*.pyc
 
 # System Files
 .DS_Store
+
+# Django ignores
+expense_tracker/db.sqlite3
+static/admin/*
+local_settings.py
+
+venv

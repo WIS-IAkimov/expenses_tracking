@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col">
+      <h1>{{isNew ? 'Create' : 'Update'}} expense</h1>
+    </div>
+  </div>
+  <div class="row">
+    <form
+      [formGroup]="expenseForm"
+      class="col"
+      (submit)="save()"
+      (reset)="reset()"
+      novalidate
+    >
+      <div class="form-group position-relative row">
+        <label for="description" class="col-sm-2">Description</label>
+        <div class="col-sm-5">
+          <input
+            type="text" id="description"
+            class="form-control"
+            formControlName="description"
+            [ngClass]="{'is-invalid': validStatus(expenseForm.get('description'))}"
+          >
+          <div class="invalid-tooltip d-block" *ngIf="validStatus(expenseForm.get('description'))">
+            <div *ngFor="let error of generateErrors('description')">
+              <span>{{error}}</span>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="date" class="col-sm-2">Date</label>
+        <div class="col-sm-5">
+          <input type="text" id="date" class="form-control" formControlName="created_at" bsDatepicker>
+        </div>
+      </div>
+      <div class="form-group row align-items-center">
+        <label for="time" class="col-sm-2">Time</label>
+        <div class="col-sm-5">
+          <timepicker id="time" [showSeconds]="true" formControlName="created_at"></timepicker>
+        </div>
+      </div>
+      <div class="form-group position-relative row">
+        <label for="amount" class="col-sm-2">Amount</label>
+        <div class="col-sm-5">
+          <input type="number"
+                 id="amount"
+                 class="form-control"
+                 formControlName="amount"
+                 [ngClass]="{'is-invalid': validStatus(expenseForm.get('amount'))}"
+          >
+          <div class="invalid-tooltip d-block" *ngIf="validStatus(expenseForm.get('amount'))">
+            <div *ngFor="let error of generateErrors('amount')">
+              <span>{{error}}</span>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="comment" class="col-sm-2">Comment</label>
+        <div class="col-sm-5">
+          <textarea id="comment" class="form-control" rows="5" formControlName="comment"></textarea>
+        </div>
+      </div>
+      <div class="col">
+        <button class="btn btn-default" [routerLink]="['../']">Cancel</button>
+        <button class="btn btn-warning" type="reset">Reset</button>
+        <button class="btn btn-success" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

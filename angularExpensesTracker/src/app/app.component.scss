@@ -1,0 +1,30 @@
+.navbar {
+  background-color: #343a40;
+
+  .nav-item>a {
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+      color: #ebebeb;
+    }
+  }
+
+  .user {
+    color: #fff
+  }
+}
+
+:host ::ng-deep .filterable {
+  .fa-filter {
+    display: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    .fa-filter {
+      display: inline-block;
+    }
+  }
+}
